@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Juno by minad</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Juno</h1>
+        <p>a unified interface to key/value stores (moneta replacement)</p>
+
+        <p class="view"><a href="https://github.com/minad/juno">View the Project on GitHub <small>minad/juno</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/minad/juno/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/minad/juno/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/minad/juno">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Juno: A unified interface for key/value stores</h1>
+
+<p><a href="http://travis-ci.org/minad/juno"><img src="https://secure.travis-ci.org/minad/juno.png?branch=master" alt="Build Status"></a> <a href="https://gemnasium.com/minad/juno"><img src="https://gemnasium.com/minad/juno.png?travis" alt="Dependency Status"></a> <a href="https://codeclimate.com/github/minad/juno"><img src="https://codeclimate.com/badge.png" alt="Code Climate"></a></p>
+
+<p>Juno provides a standard interface for interacting with various kinds of key/value stores. Juno
+is based on Moneta and replaces it with a mostly compatible interface. The reason for the
+fork was that Moneta was unmaintained for a long time.</p>
+
+<p>Juno is very feature rich:</p>
+
+<ul>
+<li>Supports for a lot of backends (See below)</li>
+<li>Supports proxies (Similar to <a href="http://rack.github.com/">Rack middlewares</a>)</li>
+<li>Custom serialization via <code>Juno::Transformer</code> proxy (Marshal/JSON/YAML and many more)</li>
+<li>Custom key transformation via <code>Juno::Transformer</code> proxy</li>
+<li>Expiration for all stores (Added via proxy if not supported natively)</li>
+</ul><h2>Supported backends</h2>
+
+<p>Out of the box, it supports the following backends:</p>
+
+<ul>
+<li>Memory:
+
+<ul>
+<li>In-memory store (:Memory)</li>
+<li>LRU hash (:LRUHash)</li>
+<li>LocalMemCache (:LocalMemCache)</li>
+<li>Memcached store (:Memcached, :MemcachedNative and :MemcachedDalli)</li>
+</ul>
+</li>
+<li>Relational Databases:
+
+<ul>
+<li>DataMapper (:DataMapper)</li>
+<li>ActiveRecord (:ActiveRecord)</li>
+<li>Sequel (:Sequel)</li>
+<li>Sqlite3 (:Sqlite)</li>
+</ul>
+</li>
+<li>Filesystem:
+
+<ul>
+<li>PStore (:PStore)</li>
+<li>YAML store (:YAML)</li>
+<li>Filesystem directory store (:File)</li>
+<li>Filesystem directory store which spreads files in subdirectories using md5 hash (:HashFile)</li>
+</ul>
+</li>
+<li>Key/value databases:
+
+<ul>
+<li>Berkeley DB (:DBM)</li>
+<li>GDBM (:GDBM)</li>
+<li>SDBM (:SDBM)</li>
+<li>Redis (:Redis)</li>
+<li>Riak (:Riak)</li>
+<li>TokyoCabinet (:TokyoCabinet)</li>
+<li>Cassandra (:Cassandra)</li>
+</ul>
+</li>
+<li>Document databases:
+
+<ul>
+<li>CouchDB (:Couch)</li>
+<li>MongoDB (:Mongo)</li>
+</ul>
+</li>
+<li>Other
+
+<ul>
+<li>Fog cloud storage which supports Amazon S3, Rackspace, etc. (:Fog)</li>
+<li>Storage which doesn't store anything (:Null)</li>
+</ul>
+</li>
+</ul><p>Supported serializers:</p>
+
+<ul>
+<li>Marshal</li>
+<li>YAML</li>
+<li>JSON (via multi_json)</li>
+<li>MessagePack</li>
+<li>BSON</li>
+<li>Ox</li>
+</ul><h2>Proxies</h2>
+
+<p>In addition it supports proxies (Similar to <a href="http://rack.github.com/">Rack middlewares</a>) which
+add additional features to storage backends:</p>
+
+<ul>
+<li>
+<code>Juno::Proxy</code> proxy base class</li>
+<li>
+<code>Juno::Expires</code> to add expiration support to stores which don't support it natively</li>
+<li>
+<code>Juno::Stack</code> to stack multiple stores (Read returns result from first where the key is found, writes go to all stores)</li>
+<li>
+<code>Juno::Transformer</code> transforms keys and values (Marshal, YAML, JSON, Base64, MD5, ...)</li>
+<li>
+<code>Juno::Cache</code> combine two stores, one as backend and one as cache (e.g. Juno::Adapters::File + Juno::Adapters::Memory)</li>
+<li>
+<code>Juno::Lock</code> to make store thread safe</li>
+</ul><p>The Juno API is purposely extremely similar to the Hash API. In order so support an
+identical API across stores, it does not support iteration or partial matches.</p>
+
+<h2>Links</h2>
+
+<ul>
+<li>Source: <a href="http://github.com/minad/juno">http://github.com/minad/juno</a>
+</li>
+<li>Bugs:   <a href="http://github.com/minad/juno/issues">http://github.com/minad/juno/issues</a>
+</li>
+<li>API documentation:
+
+<ul>
+<li>Latest Gem: <a href="http://rubydoc.info/gems/juno/frames">http://rubydoc.info/gems/juno/frames</a>
+</li>
+<li>GitHub master: <a href="http://rubydoc.info/github/minad/juno/master/frames">http://rubydoc.info/github/minad/juno/master/frames</a>
+</li>
+</ul>
+</li>
+</ul><h2>Juno API</h2>
+
+<pre><code>#initialize(options)              options differs per-store, and is used to set up the store
+
+#[](key)                          retrieve a key. if the key is not available, return nil
+
+#load(key, options = {})          retrieve a key. if the key is not available, return nil
+
+#fetch(key, options = {}, &amp;block) retrieve a key. if the key is not available, execute the
+                                  block and return its return value.
+
+#fetch(key, value, options = {})  retrieve a key. if the key is not available, return the value
+
+#[]=(key, value)                  set a value for a key. if the key is already used, clobber it.
+                                  keys set using []= will never expire
+
+#delete(key, options = {})        delete the key from the store and return the current value
+
+#key?(key, options = {})          true if the key exists, false if it does not
+
+#store(key, value, options = {})  same as []=, but you can supply options
+
+#clear(options = {})              clear all keys in this store
+
+#close                            close database connection
+</code></pre>
+
+<h2>Creating a Store</h2>
+
+<p>There is a simple interface to create a store using <code>Juno.new</code>:</p>
+
+<div class="highlight"><pre><span class="n">store</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:Memcached</span><span class="p">,</span> <span class="ss">:server</span> <span class="o">=&gt;</span> <span class="s1">'localhost:11211'</span><span class="p">)</span>
+</pre></div>
+
+<p>If you want to have control over the proxies, you have to use <code>Juno.build</code>:</p>
+
+<div class="highlight"><pre><span class="n">store</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
+  <span class="c1"># Adds expires proxy</span>
+  <span class="n">use</span> <span class="ss">:Expires</span>
+  <span class="c1"># Transform key and value using Marshal</span>
+  <span class="n">use</span> <span class="ss">:Transformer</span><span class="p">,</span> <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="ss">:marshal</span><span class="p">,</span> <span class="ss">:value</span> <span class="o">=&gt;</span> <span class="ss">:marshal</span>
+  <span class="c1"># Memory backend</span>
+  <span class="n">adapter</span> <span class="ss">:Memory</span>
+<span class="k">end</span>
+</pre></div>
+
+<h2>Expiration</h2>
+
+<p>The Cassandra, Memcached and Redis backends supports expires values directly:</p>
+
+<div class="highlight"><pre><span class="n">cache</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">::</span><span class="no">Adapters</span><span class="o">::</span><span class="no">Memcached</span><span class="o">.</span><span class="n">new</span>
+
+<span class="c1"># Or using the builder...</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
+  <span class="n">adapter</span> <span class="ss">:Memcached</span>
+<span class="k">end</span>
+
+<span class="c1"># Expires in 60 seconds</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="mi">60</span><span class="p">)</span>
+</pre></div>
+
+<p>You can add the expires feature to other backends using the Expires proxy:</p>
+
+<div class="highlight"><pre><span class="c1"># Using the :expires option</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:File</span><span class="p">,</span> <span class="ss">:dir</span> <span class="o">=&gt;</span> <span class="s1">'...'</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+
+<span class="c1"># or manually by using the proxy...</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">::</span><span class="no">Expires</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Juno</span><span class="o">::</span><span class="no">Adapters</span><span class="o">::</span><span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:dir</span> <span class="o">=&gt;</span> <span class="s1">'...'</span><span class="p">))</span>
+
+<span class="c1"># or using the builder...</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
+  <span class="n">use</span> <span class="ss">:Expires</span>
+  <span class="n">adapter</span> <span class="ss">:File</span><span class="p">,</span> <span class="ss">:dir</span> <span class="o">=&gt;</span> <span class="s1">'...'</span>
+<span class="k">end</span>
+</pre></div>
+
+<h2>Alternatives</h2>
+
+<ul>
+<li>
+<a href="https://github.com/wycats/moneta">Moneta</a>: Juno is based on Moneta, but Juno supports more features and more backends and is actively developed</li>
+<li>
+<a href="https://github.com/technoweenie/horcrux">Horcrux</a>: Used at github, supports batch operations but only Memcached backend</li>
+<li>
+<a href="https://github.com/jnunemaker/toystore">ToyStore</a>: ORM mapper for key/value stores</li>
+<li>
+<a href="https://github.com/jnunemaker/adapter">ToyStore Adapter</a>: Adapter to key/value stores used by ToyStore, Juno can be used directly with the ToyStore Memory adapter</li>
+</ul><h2>Authors</h2>
+
+<ul>
+<li>Juno by Daniel Mendler</li>
+<li>Moneta originally by wycats</li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/minad">minad</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
