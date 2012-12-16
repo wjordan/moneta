@@ -39,12 +39,16 @@ fork was that Moneta was unmaintained for a long time.</p>
 <p>Juno is very feature rich:</p>
 
 <ul>
-<li>Supports for a lot of backends (See below)</li>
+<li>Supports a lot of backends (See below)</li>
 <li>Supports proxies (Similar to <a href="http://rack.github.com/">Rack middlewares</a>)</li>
 <li>Custom serialization via <code>Juno::Transformer</code> proxy (Marshal/JSON/YAML and many more)</li>
 <li>Custom key transformation via <code>Juno::Transformer</code> proxy</li>
-<li>Expiration for all stores (Added via proxy if not supported natively)</li>
-</ul><h2>Supported backends</h2>
+<li>Value compression via <code>Juno::Transformer</code> proxy (Zlib, Snappy, QuickLZ, LZO)</li>
+<li>Expiration for all stores (Added via proxy <code>Juno::Expires</code> if not supported natively)</li>
+<li>Integration with Rack as cookie and session store and Rack-Cache</li>
+</ul><p>Juno is tested thoroughly using <a href="http://travis-ci.org/minad/juno">Travis-CI</a>.</p>
+
+<h2>Supported backends</h2>
 
 <p>Out of the box, it supports the following backends:</p>
 
@@ -52,66 +56,63 @@ fork was that Moneta was unmaintained for a long time.</p>
 <li>Memory:
 
 <ul>
-<li>In-memory store (:Memory)</li>
-<li>LRU hash (:LRUHash)</li>
-<li>LocalMemCache (:LocalMemCache)</li>
-<li>Memcached store (:Memcached, :MemcachedNative and :MemcachedDalli)</li>
+<li>In-memory store (<code>:Memory</code>)</li>
+<li>LRU hash (<code>:LRUHash</code>)</li>
+<li>LocalMemCache (<code>:LocalMemCache</code>)</li>
+<li>Memcached store (<code>:Memcached</code>, <code>:MemcachedNative</code> and <code>:MemcachedDalli</code>)</li>
 </ul>
 </li>
 <li>Relational Databases:
 
 <ul>
-<li>DataMapper (:DataMapper)</li>
-<li>ActiveRecord (:ActiveRecord)</li>
-<li>Sequel (:Sequel)</li>
-<li>Sqlite3 (:Sqlite)</li>
+<li>DataMapper (<code>:DataMapper</code>)</li>
+<li>ActiveRecord (<code>:ActiveRecord</code>)</li>
+<li>Sequel (<code>:Sequel</code>)</li>
+<li>Sqlite3 (<code>:Sqlite</code>)</li>
 </ul>
 </li>
 <li>Filesystem:
 
 <ul>
-<li>PStore (:PStore)</li>
-<li>YAML store (:YAML)</li>
-<li>Filesystem directory store (:File)</li>
-<li>Filesystem directory store which spreads files in subdirectories using md5 hash (:HashFile)</li>
+<li>PStore (<code>:PStore</code>)</li>
+<li>YAML store (<code>:YAML</code>)</li>
+<li>Filesystem directory store (<code>:File</code>)</li>
+<li>Filesystem directory store which spreads files in subdirectories using md5 hash (<code>:HashFile</code>)</li>
 </ul>
 </li>
 <li>Key/value databases:
 
 <ul>
-<li>Berkeley DB (:DBM)</li>
-<li>GDBM (:GDBM)</li>
-<li>SDBM (:SDBM)</li>
-<li>Redis (:Redis)</li>
-<li>Riak (:Riak)</li>
-<li>TokyoCabinet (:TokyoCabinet)</li>
-<li>Cassandra (:Cassandra)</li>
+<li>Berkeley DB (<code>:DBM</code>)</li>
+<li>GDBM (<code>:GDBM</code>)</li>
+<li>SDBM (<code>:SDBM</code>)</li>
+<li>Redis (<code>:Redis</code>)</li>
+<li>Riak (<code>:Riak</code>)</li>
+<li>TokyoCabinet (<code>:TokyoCabinet</code>)</li>
+<li>Cassandra (<code>:Cassandra</code>)</li>
+<li>LevelDB (<code>:LevelDB</code>)</li>
 </ul>
 </li>
 <li>Document databases:
 
 <ul>
-<li>CouchDB (:Couch)</li>
-<li>MongoDB (:Mongo)</li>
+<li>CouchDB (<code>:Couch</code>)</li>
+<li>MongoDB (<code>:Mongo</code>)</li>
 </ul>
 </li>
 <li>Other
 
 <ul>
-<li>Fog cloud storage which supports Amazon S3, Rackspace, etc. (:Fog)</li>
-<li>Storage which doesn't store anything (:Null)</li>
+<li>Fog cloud storage which supports Amazon S3, Rackspace, etc. (<code>:Fog</code>)</li>
+<li>Storage which doesn't store anything (<code>:Null</code>)</li>
 </ul>
 </li>
-</ul><p>Supported serializers:</p>
+</ul><p>Some of the backends are not exactly based on key/value stores, e.g. the relational ones. These
+are useful if you already use the corresponding backend in your application. You get a key/value
+store for free then without installing any additional services and you still have the possibility
+to upgrade to a real key/value store.</p>
 
-<ul>
-<li>Marshal</li>
-<li>YAML</li>
-<li>JSON (via multi_json)</li>
-<li>MessagePack</li>
-<li>BSON</li>
-<li>Ox</li>
-</ul><h2>Proxies</h2>
+<h2>Proxies</h2>
 
 <p>In addition it supports proxies (Similar to <a href="http://rack.github.com/">Rack middlewares</a>) which
 add additional features to storage backends:</p>
@@ -120,19 +121,49 @@ add additional features to storage backends:</p>
 <li>
 <code>Juno::Proxy</code> proxy base class</li>
 <li>
-<code>Juno::Expires</code> to add expiration support to stores which don't support it natively</li>
+<code>Juno::Expires</code> to add expiration support to stores which don't support it natively. Add it in the builder using <code>use :Expires</code>.</li>
 <li>
-<code>Juno::Stack</code> to stack multiple stores (Read returns result from first where the key is found, writes go to all stores)</li>
+<code>Juno::Stack</code> to stack multiple stores (Read returns result from first where the key is found, writes go to all stores). Add it in the builder using <code>use :Stack</code>.</li>
 <li>
-<code>Juno::Transformer</code> transforms keys and values (Marshal, YAML, JSON, Base64, MD5, ...)</li>
+<code>Juno::Transformer</code> transforms keys and values (Marshal, YAML, JSON, Base64, MD5, ...). Add it in the builder using <code>use :Transformer</code>.</li>
 <li>
-<code>Juno::Cache</code> combine two stores, one as backend and one as cache (e.g. Juno::Adapters::File + Juno::Adapters::Memory)</li>
+<code>Juno::Cache</code> combine two stores, one as backend and one as cache (e.g. Juno::Adapters::File + Juno::Adapters::Memory). Add it in the builder using <code>use :Cache</code>.</li>
 <li>
-<code>Juno::Lock</code> to make store thread safe</li>
+<code>Juno::Lock</code> to make store thread safe. Add it in the builder using <code>use :Lock</code>.</li>
+<li>
+<code>Juno::Logger</code> to log database accesses. Add it in the builder using <code>use :Logger</code>.</li>
 </ul><p>The Juno API is purposely extremely similar to the Hash API. In order so support an
 identical API across stores, it does not support iteration or partial matches.</p>
 
-<h2>Links</h2>
+<h2>Supported serializers and compressors (<code>Juno::Transformer</code>)</h2>
+
+<p>Supported serializers:</p>
+
+<ul>
+<li>BEncode (<code>:bencode</code>)</li>
+<li>BERT (<code>:bert</code>)</li>
+<li>BSON (<code>:bson</code>)</li>
+<li>JSON (<code>:json</code>)</li>
+<li>Marshal (<code>:marshal</code>)</li>
+<li>MessagePack (<code>:msgpack</code>)</li>
+<li>Ox (<code>:ox</code>)</li>
+<li>TNetStrings (<code>:tnet</code>)</li>
+<li>YAML (<code>:yaml</code>)</li>
+</ul><p>Supported value compressors:</p>
+
+<ul>
+<li>LZMA (<code>:lzma</code>)</li>
+<li>LZO (<code>:lzo</code>)</li>
+<li>Snappy (<code>:snappy</code>)</li>
+<li>QuickLZ (<code>:quicklz</code>)</li>
+<li>Zlib (<code>:zlib</code>)</li>
+</ul><p>Special transformers:</p>
+
+<ul>
+<li>Digests (MD5, Shas, ...)</li>
+<li>Add prefix to keys (<code>:prefix</code>)</li>
+<li>HMAC to verify values (:hmac, useful for Rack::JunoCookies)</li>
+</ul><h2>Links</h2>
 
 <ul>
 <li>Source: <a href="http://github.com/minad/juno">http://github.com/minad/juno</a>
@@ -187,8 +218,8 @@ identical API across stores, it does not support iteration or partial matches.</
 <div class="highlight"><pre><span class="n">store</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
   <span class="c1"># Adds expires proxy</span>
   <span class="n">use</span> <span class="ss">:Expires</span>
-  <span class="c1"># Transform key and value using Marshal</span>
-  <span class="n">use</span> <span class="ss">:Transformer</span><span class="p">,</span> <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="ss">:marshal</span><span class="p">,</span> <span class="ss">:value</span> <span class="o">=&gt;</span> <span class="ss">:marshal</span>
+  <span class="c1"># Transform key using Marshal and Base64 and value using Marshal</span>
+  <span class="n">use</span> <span class="ss">:Transformer</span><span class="p">,</span> <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:marshal</span><span class="p">,</span> <span class="ss">:base64</span><span class="o">]</span><span class="p">,</span> <span class="ss">:value</span> <span class="o">=&gt;</span> <span class="ss">:marshal</span>
   <span class="c1"># Memory backend</span>
   <span class="n">adapter</span> <span class="ss">:Memory</span>
 <span class="k">end</span>
@@ -224,6 +255,59 @@ identical API across stores, it does not support iteration or partial matches.</
 <span class="k">end</span>
 </pre></div>
 
+<h2>Framework Integration</h2>
+
+<p>Inspired by <a href="https://github.com/jodosha/redis-store">redis-store</a> there exist integration classes for Rack and Rack-Cache.</p>
+
+<p>Use Juno as a Rack session store:</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/session/juno'</span>
+
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Juno</span><span class="p">,</span> <span class="ss">:store</span> <span class="o">=&gt;</span> <span class="ss">:Redis</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Juno</span><span class="p">,</span> <span class="ss">:store</span> <span class="o">=&gt;</span> <span class="no">Juno</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:Memory</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Juno</span> <span class="k">do</span>
+  <span class="n">use</span> <span class="ss">:Expires</span>
+  <span class="n">adapter</span> <span class="ss">:Memory</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>Use Juno as a Rack-Cache store:</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/cache/juno'</span>
+
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Cache</span><span class="p">,</span>
+      <span class="ss">:metastore</span>   <span class="o">=&gt;</span> <span class="s1">'juno://Memory?expires=true'</span><span class="p">,</span>
+      <span class="ss">:entitystore</span> <span class="o">=&gt;</span> <span class="s1">'juno://Memory?expires=true'</span>
+
+<span class="c1"># Or used named Juno stores</span>
+<span class="no">Rack</span><span class="o">::</span><span class="no">Cache</span><span class="o">::</span><span class="no">Juno</span><span class="o">[</span><span class="s1">'named_metastore'</span><span class="o">]</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
+  <span class="n">use</span> <span class="ss">:Expires</span>
+  <span class="n">adapter</span> <span class="ss">:Memory</span>
+<span class="k">end</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Cache</span><span class="p">,</span>
+      <span class="ss">:metastore</span> <span class="o">=&gt;</span> <span class="s1">'juno://named_metastore'</span><span class="p">,</span>
+      <span class="ss">:entity_store</span> <span class="o">=&gt;</span> <span class="s1">'juno://named_entitystore'</span>
+</pre></div>
+
+<p>Use Juno to store cookies in Rack. It uses the <code>Juno::Adapters::Cookie</code>. You might
+wonder what the purpose of this store or Rack middleware is: It makes it possible
+to use all the transformers on the cookies (e.g. :prefix, :marshal and :hmac for value verification).</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/juno_cookies'</span>
+
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">JunoCookies</span><span class="p">,</span> <span class="ss">:domain</span> <span class="o">=&gt;</span> <span class="s1">'example.com'</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">'/path'</span>
+<span class="n">run</span> <span class="nb">lambda</span> <span class="k">do</span> <span class="o">|</span><span class="n">env</span><span class="o">|</span>
+  <span class="n">req</span> <span class="o">=</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Request</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+  <span class="n">req</span><span class="o">.</span><span class="n">cookies</span> <span class="c1">#=&gt; is now a Juno store!</span>
+  <span class="n">env</span><span class="o">[</span><span class="s1">'rack.request.cookie_hash'</span><span class="o">]</span> <span class="c1">#=&gt; is now a Juno store!</span>
+  <span class="n">req</span><span class="o">.</span><span class="n">cookies</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span> <span class="c1">#=&gt; retrieves 'key'</span>
+  <span class="n">req</span><span class="o">.</span><span class="n">cookies</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'value'</span> <span class="c1">#=&gt; sets 'key'</span>
+  <span class="n">req</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">'key'</span><span class="p">)</span> <span class="c1">#=&gt; removes 'key'</span>
+  <span class="o">[</span><span class="mi">200</span><span class="p">,</span> <span class="p">{},</span> <span class="o">[]]</span>
+<span class="k">end</span>
+</pre></div>
+
 <h2>Alternatives</h2>
 
 <ul>
@@ -238,8 +322,9 @@ identical API across stores, it does not support iteration or partial matches.</
 </ul><h2>Authors</h2>
 
 <ul>
-<li>Juno by Daniel Mendler</li>
-<li>Moneta originally by wycats</li>
+<li>Daniel Mendler</li>
+<li>Hannes Georg</li>
+<li>Moneta originally by Yehuda Katz and contributors</li>
 </ul>
       </section>
       <footer>
