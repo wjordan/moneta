@@ -1,54 +1,91 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Juno by minad</title>
+    <meta name="viewport" content="width=640" />
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Moneta by minad</title>
   </head>
+
   <body>
-    <div class="wrapper">
+    <a id="forkme_banner" href="https://github.com/minad/moneta">View on GitHub</a>
+    <div class="shell">
+
       <header>
-        <h1>Juno</h1>
-        <p>a unified interface to key/value stores (moneta replacement)</p>
-
-        <p class="view"><a href="https://github.com/minad/juno">View the Project on GitHub <small>minad/juno</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/minad/juno/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/minad/juno/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/minad/juno">View On <strong>GitHub</strong></a></li>
-        </ul>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Moneta</h1>
+            <h2>a unified interface to key/value stores</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
       </header>
-      <section>
-        <h1>Juno: A unified interface for key/value stores</h1>
 
-<p><a href="http://travis-ci.org/minad/juno"><img src="https://secure.travis-ci.org/minad/juno.png?branch=master" alt="Build Status"></a> <a href="https://gemnasium.com/minad/juno"><img src="https://gemnasium.com/minad/juno.png?travis" alt="Dependency Status"></a> <a href="https://codeclimate.com/github/minad/juno"><img src="https://codeclimate.com/badge.png" alt="Code Climate"></a></p>
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/minad/moneta/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/minad/moneta/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
 
-<p>Juno provides a standard interface for interacting with various kinds of key/value stores. Juno
-is based on Moneta and replaces it with a mostly compatible interface. The reason for the
-fork was that Moneta was unmaintained for a long time.</p>
 
-<p>Juno is very feature rich:</p>
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <h1>Moneta: A unified interface for key/value stores</h1>
+
+<p><a href="http://travis-ci.org/minad/moneta"><img src="https://secure.travis-ci.org/minad/moneta.png?branch=master" alt="Build Status"></a> <a href="https://gemnasium.com/minad/moneta"><img src="https://gemnasium.com/minad/moneta.png?travis" alt="Dependency Status"></a> <a href="https://codeclimate.com/github/minad/moneta"><img src="https://codeclimate.com/badge.png" alt="Code Climate"></a></p>
+
+<p>Moneta provides a standard interface for interacting with various kinds of key/value stores. A short overview of the features:</p>
 
 <ul>
 <li>Supports a lot of backends (See below)</li>
-<li>Supports proxies (Similar to <a href="http://rack.github.com/">Rack middlewares</a>)</li>
-<li>Custom serialization via <code>Juno::Transformer</code> proxy (Marshal/JSON/YAML and many more)</li>
-<li>Custom key transformation via <code>Juno::Transformer</code> proxy</li>
-<li>Value compression via <code>Juno::Transformer</code> proxy (Zlib, Snappy, QuickLZ, LZO)</li>
-<li>Expiration for all stores (Added via proxy <code>Juno::Expires</code> if not supported natively)</li>
-<li>Integration with Rack as cookie and session store and Rack-Cache</li>
-</ul><p>Juno is tested thoroughly using <a href="http://travis-ci.org/minad/juno">Travis-CI</a>.</p>
+<li>Allows a full configuration of the serialization -&gt; compression -&gt; adapter stack using proxies (Similar to <a href="http://rack.github.com/">Rack middlewares</a>)
 
-<h2>Supported backends</h2>
+<ul>
+<li>Configurable serialization via <code>Moneta::Transformer</code> proxy (Marshal/JSON/YAML and many more)</li>
+<li>Configurable value compression via <code>Moneta::Transformer</code> proxy (Zlib, Snappy, LZMA, ...)</li>
+<li>Configurable key transformation via <code>Moneta::Transformer</code> proxy</li>
+</ul>
+</li>
+<li>Expiration for all stores (Added via proxy <code>Moneta::Expires</code> if not supported natively)</li>
+<li>Atomic incrementation and decrementation for most stores (Method <code>#increment</code> and <code>#decrement</code>)</li>
+<li>Includes a very simple key/value server (<code>Moneta::Server</code>) and client (<code>Moneta::Adapters::Client</code>)</li>
+<li>Integration with <a href="http://rubyonrails.org/">Rails</a>, <a href="http://rack.github.com/">Rack</a> as cookie and session store and <a href="https://github.com/rtomayko/rack-cache">Rack-Cache</a>
+</li>
+</ul><p>Moneta is tested thoroughly using <a href="http://travis-ci.org/minad/moneta">Travis-CI</a>.</p>
+
+<h2>Links</h2>
+
+<ul>
+<li>Source: <a href="http://github.com/minad/moneta">http://github.com/minad/moneta</a>
+</li>
+<li>Bugs:   <a href="http://github.com/minad/moneta/issues">http://github.com/minad/moneta/issues</a>
+</li>
+<li>API documentation:
+
+<ul>
+<li>Latest Gem: <a href="http://rubydoc.info/gems/moneta/frames">http://rubydoc.info/gems/moneta/frames</a>
+</li>
+<li>GitHub master: <a href="http://rubydoc.info/github/minad/moneta/master/frames">http://rubydoc.info/github/minad/moneta/master/frames</a>
+</li>
+</ul>
+</li>
+</ul><h2>Supported backends</h2>
 
 <p>Out of the box, it supports the following backends:</p>
 
@@ -57,7 +94,7 @@ fork was that Moneta was unmaintained for a long time.</p>
 
 <ul>
 <li>In-memory store (<code>:Memory</code>)</li>
-<li>LRU hash (<code>:LRUHash</code>)</li>
+<li>LRU hash - prefer this over :Memory! (<code>:LRUHash</code>)</li>
 <li>LocalMemCache (<code>:LocalMemCache</code>)</li>
 <li>Memcached store (<code>:Memcached</code>, <code>:MemcachedNative</code> and <code>:MemcachedDalli</code>)</li>
 </ul>
@@ -84,13 +121,14 @@ fork was that Moneta was unmaintained for a long time.</p>
 
 <ul>
 <li>Berkeley DB (<code>:DBM</code>)</li>
+<li>Cassandra (<code>:Cassandra</code>)</li>
 <li>GDBM (<code>:GDBM</code>)</li>
-<li>SDBM (<code>:SDBM</code>)</li>
+<li>HBase (<code>:HBase</code>)</li>
+<li>LevelDB (<code>:LevelDB</code>)</li>
 <li>Redis (<code>:Redis</code>)</li>
 <li>Riak (<code>:Riak</code>)</li>
+<li>SDBM (<code>:SDBM</code>)</li>
 <li>TokyoCabinet (<code>:TokyoCabinet</code>)</li>
-<li>Cassandra (<code>:Cassandra</code>)</li>
-<li>LevelDB (<code>:LevelDB</code>)</li>
 </ul>
 </li>
 <li>Document databases:
@@ -103,6 +141,7 @@ fork was that Moneta was unmaintained for a long time.</p>
 <li>Other
 
 <ul>
+<li>Moneta key/value server client (<code>:Client</code> works with <code>Moneta::Server</code>)</li>
 <li>Fog cloud storage which supports Amazon S3, Rackspace, etc. (<code>:Fog</code>)</li>
 <li>Storage which doesn't store anything (<code>:Null</code>)</li>
 </ul>
@@ -119,23 +158,22 @@ add additional features to storage backends:</p>
 
 <ul>
 <li>
-<code>Juno::Proxy</code> proxy base class</li>
+<code>Moneta::Proxy</code> and <code>Moneta::Wrapper</code> proxy base classes</li>
 <li>
-<code>Juno::Expires</code> to add expiration support to stores which don't support it natively. Add it in the builder using <code>use :Expires</code>.</li>
+<code>Moneta::Expires</code> to add expiration support to stores which don't support it natively. Add it in the builder using <code>use :Expires</code>.</li>
 <li>
-<code>Juno::Stack</code> to stack multiple stores (Read returns result from first where the key is found, writes go to all stores). Add it in the builder using <code>use :Stack</code>.</li>
+<code>Moneta::Stack</code> to stack multiple stores (Read returns result from first where the key is found, writes go to all stores). Add it in the builder using <code>use :Stack</code>.</li>
 <li>
-<code>Juno::Transformer</code> transforms keys and values (Marshal, YAML, JSON, Base64, MD5, ...). Add it in the builder using <code>use :Transformer</code>.</li>
+<code>Moneta::Transformer</code> transforms keys and values (Marshal, YAML, JSON, Base64, MD5, ...). Add it in the builder using <code>use :Transformer</code>.</li>
 <li>
-<code>Juno::Cache</code> combine two stores, one as backend and one as cache (e.g. Juno::Adapters::File + Juno::Adapters::Memory). Add it in the builder using <code>use :Cache</code>.</li>
+<code>Moneta::Cache</code> combine two stores, one as backend and one as cache (e.g. <code>Moneta::Adapters::File</code> + <code>Moneta::Adapters::Memory</code>). Add it in the builder using <code>use :Cache</code>.</li>
 <li>
-<code>Juno::Lock</code> to make store thread safe. Add it in the builder using <code>use :Lock</code>.</li>
+<code>Moneta::Lock</code> to make store thread safe. Add it in the builder using <code>use :Lock</code>.</li>
 <li>
-<code>Juno::Logger</code> to log database accesses. Add it in the builder using <code>use :Logger</code>.</li>
-</ul><p>The Juno API is purposely extremely similar to the Hash API. In order so support an
-identical API across stores, it does not support iteration or partial matches.</p>
-
-<h2>Supported serializers and compressors (<code>Juno::Transformer</code>)</h2>
+<code>Moneta::Logger</code> to log database accesses. Add it in the builder using <code>use :Logger</code>.</li>
+<li>
+<code>Moneta::Shared</code> to share a store between multiple processes. Add it in the builder using <code>use :Shared</code>.</li>
+</ul><h2>Supported serializers and compressors (<code>Moneta::Transformer</code>)</h2>
 
 <p>Supported serializers:</p>
 
@@ -162,60 +200,55 @@ identical API across stores, it does not support iteration or partial matches.</
 <ul>
 <li>Digests (MD5, Shas, ...)</li>
 <li>Add prefix to keys (<code>:prefix</code>)</li>
-<li>HMAC to verify values (:hmac, useful for Rack::JunoCookies)</li>
-</ul><h2>Links</h2>
+<li>HMAC to verify values (<code>:hmac</code>, useful for <code>Rack::MonetaCookies</code>)</li>
+</ul><h2>Moneta API</h2>
 
-<ul>
-<li>Source: <a href="http://github.com/minad/juno">http://github.com/minad/juno</a>
-</li>
-<li>Bugs:   <a href="http://github.com/minad/juno/issues">http://github.com/minad/juno/issues</a>
-</li>
-<li>API documentation:
+<p>The Moneta API is purposely extremely similar to the Hash API with a few minor additions.
+There are the additional methods <code>#load</code>, <code>#increment</code>, <code>#decrement</code> and <code>#close</code>. Every method takes also a optional
+option hash. In order so support an identical API across stores, Moneta does not support iteration or partial matches.</p>
 
-<ul>
-<li>Latest Gem: <a href="http://rubydoc.info/gems/juno/frames">http://rubydoc.info/gems/juno/frames</a>
-</li>
-<li>GitHub master: <a href="http://rubydoc.info/github/minad/juno/master/frames">http://rubydoc.info/github/minad/juno/master/frames</a>
-</li>
-</ul>
-</li>
-</ul><h2>Juno API</h2>
+<pre><code>#initialize(options)                      options differs per-store, and is used to set up the store.
 
-<pre><code>#initialize(options)              options differs per-store, and is used to set up the store
+#[](key)                                  retrieve a key. If the key is not available, return nil.
 
-#[](key)                          retrieve a key. if the key is not available, return nil
+#load(key, options = {})                  retrieve a key. If the key is not available, return nil.
 
-#load(key, options = {})          retrieve a key. if the key is not available, return nil
+#fetch(key, options = {}, &amp;block)         retrieve a key. If the key is not available, execute the
+                                          block and return its return value.
 
-#fetch(key, options = {}, &amp;block) retrieve a key. if the key is not available, execute the
-                                  block and return its return value.
+#fetch(key, value, options = {})          retrieve a key. If the key is not available, return the value,
 
-#fetch(key, value, options = {})  retrieve a key. if the key is not available, return the value
+#[]=(key, value)                          set a value for a key. If the key is already used, clobber it.
+                                          keys set using []= will never expire.
 
-#[]=(key, value)                  set a value for a key. if the key is already used, clobber it.
-                                  keys set using []= will never expire
+#store(key, value, options = {})          same as []=, but you can supply options.
 
-#delete(key, options = {})        delete the key from the store and return the current value
+#delete(key, options = {})                delete the key from the store and return the current value.
 
-#key?(key, options = {})          true if the key exists, false if it does not
+#key?(key, options = {})                  true if the key exists, false if it does not.
 
-#store(key, value, options = {})  same as []=, but you can supply options
+#increment(key, amount = 1, options = {}) increment numeric value. This is a atomic operation
+                                          which is not supported by all stores. Returns current value.
 
-#clear(options = {})              clear all keys in this store
+#decrement(key, amount = 1, options = {}) increment numeric value. This is a atomic operation
+                                          which is not supported by all stores. Returns current value.
+                                          This is just syntactic sugar for incrementing with a negative value.
 
-#close                            close database connection
+#clear(options = {})                      clear all keys in this store.
+
+#close                                    close database connection.
 </code></pre>
 
-<h2>Creating a Store</h2>
+<h3>Creating a Store</h3>
 
-<p>There is a simple interface to create a store using <code>Juno.new</code>:</p>
+<p>There is a simple interface to create a store using <code>Moneta.new</code>:</p>
 
-<div class="highlight"><pre><span class="n">store</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:Memcached</span><span class="p">,</span> <span class="ss">:server</span> <span class="o">=&gt;</span> <span class="s1">'localhost:11211'</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">store</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:Memcached</span><span class="p">,</span> <span class="ss">:server</span> <span class="o">=&gt;</span> <span class="s1">'localhost:11211'</span><span class="p">)</span>
 </pre></div>
 
-<p>If you want to have control over the proxies, you have to use <code>Juno.build</code>:</p>
+<p>If you want to have control over the proxies, you have to use <code>Moneta.build</code>:</p>
 
-<div class="highlight"><pre><span class="n">store</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
+<div class="highlight"><pre><span class="n">store</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
   <span class="c1"># Adds expires proxy</span>
   <span class="n">use</span> <span class="ss">:Expires</span>
   <span class="c1"># Transform key using Marshal and Base64 and value using Marshal</span>
@@ -225,82 +258,194 @@ identical API across stores, it does not support iteration or partial matches.</
 <span class="k">end</span>
 </pre></div>
 
-<h2>Expiration</h2>
+<h3>Expiration</h3>
 
 <p>The Cassandra, Memcached and Redis backends supports expires values directly:</p>
 
-<div class="highlight"><pre><span class="n">cache</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">::</span><span class="no">Adapters</span><span class="o">::</span><span class="no">Memcached</span><span class="o">.</span><span class="n">new</span>
+<div class="highlight"><pre><span class="n">cache</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">::</span><span class="no">Adapters</span><span class="o">::</span><span class="no">Memcached</span><span class="o">.</span><span class="n">new</span>
 
 <span class="c1"># Or using the builder...</span>
-<span class="n">cache</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
   <span class="n">adapter</span> <span class="ss">:Memcached</span>
 <span class="k">end</span>
 
 <span class="c1"># Expires in 60 seconds</span>
 <span class="n">cache</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="mi">60</span><span class="p">)</span>
+
+<span class="c1"># Update expires time if value is found</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">key?</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">)</span>
 </pre></div>
 
 <p>You can add the expires feature to other backends using the Expires proxy:</p>
 
 <div class="highlight"><pre><span class="c1"># Using the :expires option</span>
-<span class="n">cache</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:File</span><span class="p">,</span> <span class="ss">:dir</span> <span class="o">=&gt;</span> <span class="s1">'...'</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:File</span><span class="p">,</span> <span class="ss">:dir</span> <span class="o">=&gt;</span> <span class="s1">'...'</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
 
 <span class="c1"># or manually by using the proxy...</span>
-<span class="n">cache</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">::</span><span class="no">Expires</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Juno</span><span class="o">::</span><span class="no">Adapters</span><span class="o">::</span><span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:dir</span> <span class="o">=&gt;</span> <span class="s1">'...'</span><span class="p">))</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">::</span><span class="no">Expires</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Moneta</span><span class="o">::</span><span class="no">Adapters</span><span class="o">::</span><span class="no">File</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:dir</span> <span class="o">=&gt;</span> <span class="s1">'...'</span><span class="p">))</span>
 
 <span class="c1"># or using the builder...</span>
-<span class="n">cache</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
   <span class="n">use</span> <span class="ss">:Expires</span>
   <span class="n">adapter</span> <span class="ss">:File</span><span class="p">,</span> <span class="ss">:dir</span> <span class="o">=&gt;</span> <span class="s1">'...'</span>
 <span class="k">end</span>
 </pre></div>
 
+<h3>Incrementation and raw access</h3>
+
+<p>The stores support the <code>#increment</code> which allows atomic increments of unsigned integer values. If you increment
+a non existing value, it will be created. If you increment a non integer value an exception will be raised.</p>
+
+<div class="highlight"><pre><span class="n">store</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">)</span>     <span class="c1"># returns 1, counter created</span>
+<span class="n">store</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">)</span>     <span class="c1"># returns 2</span>
+<span class="n">store</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># returns 1</span>
+<span class="n">store</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span> <span class="c1"># returns 14</span>
+<span class="n">store</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># returns 14</span>
+<span class="n">store</span><span class="o">.</span><span class="n">decrement</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">)</span>     <span class="c1"># returns 13</span>
+<span class="n">store</span><span class="o">[</span><span class="s1">'name'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'Moneta'</span>
+<span class="n">store</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span>        <span class="c1"># raises an Exception</span>
+</pre></div>
+
+<p>If you want to access the counter value you have to use raw access to the datastore. This is only important
+if you have a <code>Moneta::Transformer</code> somewhere in your proxy stack which transforms the values e.g. with <code>Marshal</code>.</p>
+
+<div class="highlight"><pre><span class="n">store</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">)</span>          <span class="c1"># returns 1, counter created</span>
+<span class="n">store</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">,</span> <span class="ss">:raw</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span> <span class="c1"># returns 1</span>
+
+<span class="n">store</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">,</span> <span class="s1">'10'</span><span class="p">,</span> <span class="ss">:raw</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+<span class="n">store</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">)</span> <span class="c1"># returns 11</span>
+</pre></div>
+
+<p>Fortunately there is a nicer way to do this using some syntactic sugar!</p>
+
+<div class="highlight"><pre><span class="n">store</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">)</span> <span class="c1"># returns 1, counter created</span>
+<span class="n">store</span><span class="o">.</span><span class="n">raw</span><span class="o">[</span><span class="s1">'counter'</span><span class="o">]</span>       <span class="c1"># returns 1</span>
+<span class="n">store</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">)</span>  <span class="c1"># returns 1</span>
+
+<span class="n">store</span><span class="o">.</span><span class="n">raw</span><span class="o">[</span><span class="s1">'counter'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'10'</span>
+<span class="n">store</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">)</span> <span class="c1"># returns 11</span>
+</pre></div>
+
+<p>You can also keep the <code>raw</code> store in a variable and use it like this:</p>
+
+<div class="highlight"><pre><span class="n">counters</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">raw</span>
+
+<span class="n">counters</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">)</span> <span class="c1"># returns 1, counter created</span>
+<span class="n">counters</span><span class="o">[</span><span class="s1">'counter'</span><span class="o">]</span>           <span class="c1"># returns 1</span>
+<span class="n">counters</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">)</span>      <span class="c1"># returns 1</span>
+
+<span class="n">counters</span><span class="o">[</span><span class="s1">'counter'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'10'</span>
+<span class="n">counters</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">)</span> <span class="c1"># returns 11</span>
+</pre></div>
+
+<p>Stores which support incrementation (you have to use <code>Moneta::Lock</code> if you want to use the store in a multithreading environment.)</p>
+
+<ul>
+<li>ActiveRecord</li>
+<li>File</li>
+<li>HBase</li>
+<li>LRUHash</li>
+<li>LevelDB</li>
+<li>Memcached</li>
+<li>Memory</li>
+<li>Redis</li>
+<li>SDBM/DBM/GDBM</li>
+<li>Sequel</li>
+<li>Sqlite</li>
+<li>TokyoCabinet</li>
+<li>YAML/PStore</li>
+</ul><p>Stores which don't support incrementation:</p>
+
+<ul>
+<li>Cassandra</li>
+<li>Couch</li>
+<li>DataMapper</li>
+<li>Fog</li>
+<li>LocalMemCache</li>
+<li>Mongo</li>
+<li>Riak</li>
+</ul><h3>Syntactic sugar and option merger</h3>
+
+<p>For raw data access as described before the class <code>Moneta::OptionMerger</code> is used. It works like this:</p>
+
+<div class="highlight"><pre><span class="c1"># All methods after 'with' get the options passed</span>
+<span class="n">store</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="ss">:raw</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'key'</span><span class="p">)</span>
+
+<span class="c1"># You can also specify the methods</span>
+<span class="n">store</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="ss">:raw</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="ss">:load</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'key'</span><span class="p">)</span>
+<span class="n">store</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="ss">:raw</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:except</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:key?</span><span class="p">,</span> <span class="ss">:increment</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'key'</span><span class="p">)</span>
+
+<span class="c1"># Syntactic sugar for raw access</span>
+<span class="n">store</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'key'</span><span class="p">)</span>
+
+<span class="c1"># Access substore where all keys get a prefix</span>
+<span class="n">substore</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">prefix</span><span class="p">(</span><span class="s1">'sub'</span><span class="p">)</span>
+<span class="n">substore</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'value'</span>
+<span class="n">store</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span>    <span class="c1"># returns nil</span>
+<span class="n">store</span><span class="o">[</span><span class="s1">'subkey'</span><span class="o">]</span> <span class="c1"># returns 'value'</span>
+
+<span class="c1"># Set expiration time for all keys</span>
+<span class="n">short_lived_store</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">expires</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+<span class="n">short_lived_store</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'value'</span>
+</pre></div>
+
 <h2>Framework Integration</h2>
 
-<p>Inspired by <a href="https://github.com/jodosha/redis-store">redis-store</a> there exist integration classes for Rack and Rack-Cache.</p>
+<p>Inspired by <a href="https://github.com/jodosha/redis-store">redis-store</a> there exist integration classes for <a href="http://rubyonrails.org/">Rails</a>, <a href="http://rack.github.com/">Rack</a> and <a href="https://github.com/rtomayko/rack-cache">Rack-Cache</a>.</p>
 
-<p>Use Juno as a Rack session store:</p>
+<h3>Rack session store</h3>
 
-<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/session/juno'</span>
+<p>Use Moneta as a <a href="http://rack.github.com/">Rack</a> session store:</p>
 
-<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Juno</span><span class="p">,</span> <span class="ss">:store</span> <span class="o">=&gt;</span> <span class="ss">:Redis</span>
-<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Juno</span><span class="p">,</span> <span class="ss">:store</span> <span class="o">=&gt;</span> <span class="no">Juno</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:Memory</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/session/moneta'</span>
 
-<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Juno</span> <span class="k">do</span>
+<span class="c1"># Use only the adapter name</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Moneta</span><span class="p">,</span> <span class="ss">:store</span> <span class="o">=&gt;</span> <span class="ss">:Redis</span>
+
+<span class="c1"># Use Moneta.new</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Moneta</span><span class="p">,</span> <span class="ss">:store</span> <span class="o">=&gt;</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:Memory</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+
+<span class="c1"># Use the Moneta builder</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Moneta</span> <span class="k">do</span>
   <span class="n">use</span> <span class="ss">:Expires</span>
   <span class="n">adapter</span> <span class="ss">:Memory</span>
 <span class="k">end</span>
 </pre></div>
 
-<p>Use Juno as a Rack-Cache store:</p>
+<h3>Rack cache</h3>
 
-<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/cache/juno'</span>
+<p>Use Moneta as a <a href="https://github.com/rtomayko/rack-cache">Rack-Cache</a> store:</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/cache/moneta'</span>
 
 <span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Cache</span><span class="p">,</span>
-      <span class="ss">:metastore</span>   <span class="o">=&gt;</span> <span class="s1">'juno://Memory?expires=true'</span><span class="p">,</span>
-      <span class="ss">:entitystore</span> <span class="o">=&gt;</span> <span class="s1">'juno://Memory?expires=true'</span>
+      <span class="ss">:metastore</span>   <span class="o">=&gt;</span> <span class="s1">'moneta://Memory?expires=true'</span><span class="p">,</span>
+      <span class="ss">:entitystore</span> <span class="o">=&gt;</span> <span class="s1">'moneta://Memory?expires=true'</span>
 
-<span class="c1"># Or used named Juno stores</span>
-<span class="no">Rack</span><span class="o">::</span><span class="no">Cache</span><span class="o">::</span><span class="no">Juno</span><span class="o">[</span><span class="s1">'named_metastore'</span><span class="o">]</span> <span class="o">=</span> <span class="no">Juno</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
+<span class="c1"># Or used named Moneta stores</span>
+<span class="no">Rack</span><span class="o">::</span><span class="no">Cache</span><span class="o">::</span><span class="no">Moneta</span><span class="o">[</span><span class="s1">'named_metastore'</span><span class="o">]</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
   <span class="n">use</span> <span class="ss">:Expires</span>
   <span class="n">adapter</span> <span class="ss">:Memory</span>
 <span class="k">end</span>
 <span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Cache</span><span class="p">,</span>
-      <span class="ss">:metastore</span> <span class="o">=&gt;</span> <span class="s1">'juno://named_metastore'</span><span class="p">,</span>
-      <span class="ss">:entity_store</span> <span class="o">=&gt;</span> <span class="s1">'juno://named_entitystore'</span>
+      <span class="ss">:metastore</span> <span class="o">=&gt;</span> <span class="s1">'moneta://named_metastore'</span><span class="p">,</span>
+      <span class="ss">:entity_store</span> <span class="o">=&gt;</span> <span class="s1">'moneta://named_entitystore'</span>
 </pre></div>
 
-<p>Use Juno to store cookies in Rack. It uses the <code>Juno::Adapters::Cookie</code>. You might
+<h3>Rack cookies</h3>
+
+<p>Use Moneta to store cookies in <a href="http://rack.github.com/">Rack</a>. It uses the <code>Moneta::Adapters::Cookie</code>. You might
 wonder what the purpose of this store or Rack middleware is: It makes it possible
-to use all the transformers on the cookies (e.g. :prefix, :marshal and :hmac for value verification).</p>
+to use all the transformers on the cookies (e.g. <code>:prefix</code>, <code>:marshal</code> and <code>:hmac</code> for value verification).</p>
 
-<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/juno_cookies'</span>
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/moneta_cookies'</span>
 
-<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">JunoCookies</span><span class="p">,</span> <span class="ss">:domain</span> <span class="o">=&gt;</span> <span class="s1">'example.com'</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">'/path'</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">MonetaCookies</span><span class="p">,</span> <span class="ss">:domain</span> <span class="o">=&gt;</span> <span class="s1">'example.com'</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">'/path'</span>
 <span class="n">run</span> <span class="nb">lambda</span> <span class="k">do</span> <span class="o">|</span><span class="n">env</span><span class="o">|</span>
   <span class="n">req</span> <span class="o">=</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Request</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-  <span class="n">req</span><span class="o">.</span><span class="n">cookies</span> <span class="c1">#=&gt; is now a Juno store!</span>
-  <span class="n">env</span><span class="o">[</span><span class="s1">'rack.request.cookie_hash'</span><span class="o">]</span> <span class="c1">#=&gt; is now a Juno store!</span>
+  <span class="n">req</span><span class="o">.</span><span class="n">cookies</span> <span class="c1">#=&gt; is now a Moneta store!</span>
+  <span class="n">env</span><span class="o">[</span><span class="s1">'rack.request.cookie_hash'</span><span class="o">]</span> <span class="c1">#=&gt; is now a Moneta store!</span>
   <span class="n">req</span><span class="o">.</span><span class="n">cookies</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span> <span class="c1">#=&gt; retrieves 'key'</span>
   <span class="n">req</span><span class="o">.</span><span class="n">cookies</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'value'</span> <span class="c1">#=&gt; sets 'key'</span>
   <span class="n">req</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">'key'</span><span class="p">)</span> <span class="c1">#=&gt; removes 'key'</span>
@@ -308,31 +453,136 @@ to use all the transformers on the cookies (e.g. :prefix, :marshal and :hmac for
 <span class="k">end</span>
 </pre></div>
 
-<h2>Alternatives</h2>
+<h3>Rails session store</h3>
+
+<p>Add the session store in your application configuration <code>config/environments/*.rb</code>.</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'moneta'</span>
+
+<span class="c1"># Only by adapter name</span>
+<span class="n">config</span><span class="o">.</span><span class="n">cache_store</span> <span class="ss">:moneta_store</span><span class="p">,</span> <span class="ss">:store</span> <span class="o">=&gt;</span> <span class="ss">:Memory</span>
+
+<span class="c1"># Use Moneta.new</span>
+<span class="n">config</span><span class="o">.</span><span class="n">cache_store</span> <span class="ss">:moneta_store</span><span class="p">,</span> <span class="ss">:store</span> <span class="o">=&gt;</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:Memory</span><span class="p">)</span>
+
+<span class="c1"># Use the Moneta builder</span>
+<span class="n">config</span><span class="o">.</span><span class="n">cache_store</span> <span class="ss">:moneta_store</span><span class="p">,</span> <span class="ss">:store</span> <span class="o">=&gt;</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
+  <span class="n">use</span> <span class="ss">:Expires</span>
+  <span class="n">adapter</span> <span class="ss">:Memory</span>
+<span class="k">end</span>
+</pre></div>
+
+<h3>Rails cache store</h3>
+
+<p>Add the cache store in your application configuration <code>config/environments/*.rb</code>. Unfortunately the
+Moneta cache store doesn't support matchers. If you need these features use a different server-specific implementation.</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'moneta'</span>
+
+<span class="c1"># Only by adapter name</span>
+<span class="n">config</span><span class="o">.</span><span class="n">cache_store</span> <span class="ss">:moneta_store</span><span class="p">,</span> <span class="ss">:store</span> <span class="o">=&gt;</span> <span class="ss">:Memory</span>
+
+<span class="c1"># Use Moneta.new</span>
+<span class="n">config</span><span class="o">.</span><span class="n">cache_store</span> <span class="ss">:moneta_store</span><span class="p">,</span> <span class="ss">:store</span> <span class="o">=&gt;</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:Memory</span><span class="p">)</span>
+
+<span class="c1"># Use the Moneta builder</span>
+<span class="n">config</span><span class="o">.</span><span class="n">cache_store</span> <span class="ss">:moneta_store</span><span class="p">,</span> <span class="ss">:store</span> <span class="o">=&gt;</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
+  <span class="n">use</span> <span class="ss">:Expires</span>
+  <span class="n">adapter</span> <span class="ss">:Memory</span>
+<span class="k">end</span>
+</pre></div>
+
+<h2>Advanced</h2>
+
+<h3>Build your own key value server</h3>
+
+<p>You can use Moneta to build your own key/value server which is shared between
+multiple processes. If you run the following code in two different processes,
+they will share the same data which will also be persistet in the database <code>shared.db</code>.</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'moneta'</span>
+
+<span class="n">store</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">build</span> <span class="k">do</span>
+  <span class="n">use</span> <span class="ss">:Transformer</span><span class="p">,</span> <span class="ss">:key</span> <span class="o">=&gt;</span> <span class="ss">:marshal</span><span class="p">,</span> <span class="ss">:value</span> <span class="o">=&gt;</span> <span class="ss">:marshal</span>
+  <span class="n">use</span> <span class="ss">:Shared</span> <span class="k">do</span>
+    <span class="n">use</span> <span class="ss">:Cache</span> <span class="k">do</span>
+      <span class="n">cache</span> <span class="k">do</span>
+        <span class="n">adapter</span> <span class="ss">:LRUHash</span>
+      <span class="k">end</span>
+      <span class="n">backend</span> <span class="k">do</span>
+        <span class="n">adapter</span> <span class="ss">:GDBM</span><span class="p">,</span> <span class="ss">:file</span> <span class="o">=&gt;</span> <span class="s1">'shared.db'</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>If you want to go further, you might want to take a look at <code>Moneta::Server</code> and <code>Moneta::Adapters::Client</code> which
+are used by <code>Moneta::Shared</code> and provide the networking communication. But be aware that they are experimental
+and subjected to change. They provide an acceptable performance (for being ruby only), but don't have a stable protocol yet.</p>
+
+<p>You might wonder why I didn't use <a href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/drb/rdoc/DRb.html">DRb</a> to implement server and client -
+in fact my first versions used it, but with much worse performance and it was real fun to implement the networking directly :)
+There is still much room for improvement and experiments, try <a href="http://eventmachine.rubyforge.org/">EventMachine</a>,
+try <a href="http://bogomips.org/kgio/">Kgio</a>, ...</p>
+
+<h3>ToyStore ORM</h3>
+
+<p>If you want something more advanced to handle your objects and relations,
+use John Nunemaker's <a href="https://github.com/jnunemaker/toystore">ToyStore</a> which works
+together with Moneta. Assuming that <code>Person</code> is a <code>ToyStore::Object</code> you can
+add persistence using Moneta as follows:</p>
+
+<div class="highlight"><pre><span class="c1"># Use the Moneta Redis backend</span>
+<span class="no">Person</span><span class="o">.</span><span class="n">adapter</span> <span class="ss">:memory</span><span class="p">,</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:Redis</span><span class="p">)</span>
+</pre></div>
+
+<h2>Testing and Benchmarks</h2>
+
+<p>Testing is done using <a href="http://travis-ci.org/minad/moneta">Travis-CI</a>. Currently we support Ruby 1.8.7 and 1.9.3.</p>
+
+<p>Benchmarks for each store are done on <a href="http://travis-ci.org/minad/moneta">Travis-CI</a> for each build. Take a look there
+to compare the speed of the different key value stores for different key/value sizes and size distributions.
+Feel free to add your own configurations! The impact of Moneta should be minimal since it is only a thin layer
+on top of the different stores.</p>
+
+<h2>More information</h2>
 
 <ul>
-<li>
-<a href="https://github.com/wycats/moneta">Moneta</a>: Juno is based on Moneta, but Juno supports more features and more backends and is actively developed</li>
+<li><a href="http://yehudakatz.com/2009/02/12/whats-the-point/">http://yehudakatz.com/2009/02/12/whats-the-point/</a></li>
+<li><a href="http://yehudakatz.com/2009/02/12/initial-release-of-moneta-unified-keyvalue-store-api/">http://yehudakatz.com/2009/02/12/initial-release-of-moneta-unified-keyvalue-store-api/</a></li>
+</ul><h2>Alternatives</h2>
+
+<ul>
 <li>
 <a href="https://github.com/technoweenie/horcrux">Horcrux</a>: Used at github, supports batch operations but only Memcached backend</li>
 <li>
 <a href="https://github.com/jnunemaker/toystore">ToyStore</a>: ORM mapper for key/value stores</li>
 <li>
-<a href="https://github.com/jnunemaker/adapter">ToyStore Adapter</a>: Adapter to key/value stores used by ToyStore, Juno can be used directly with the ToyStore Memory adapter</li>
+<a href="https://github.com/jnunemaker/adapter">ToyStore Adapter</a>: Adapter to key/value stores used by ToyStore, Moneta can be used directly with the ToyStore Memory adapter</li>
 </ul><h2>Authors</h2>
 
 <ul>
 <li>Daniel Mendler</li>
 <li>Hannes Georg</li>
-<li>Moneta originally by Yehuda Katz and contributors</li>
+<li>Originally by Yehuda Katz and contributors</li>
 </ul>
       </section>
+
       <footer>
-        <p>This project is maintained by <a href="https://github.com/minad">minad</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/minad">minad</a> can be found on <a href="https://github.com/minad/moneta">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
       </footer>
+
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+
     
   </body>
 </html>
