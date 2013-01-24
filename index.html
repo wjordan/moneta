@@ -1,59 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
 <html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640" />
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
 
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
-    <title>Moneta by minad</title>
-  </head>
+  <title>Moneta</title>
+  <meta name="description" content="a unified interface to key/value stores">
 
-  <body>
-    <a id="forkme_banner" href="https://github.com/minad/moneta">View on GitHub</a>
-    <div class="shell">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>Moneta</h1>
-            <h2>a unified interface to key/value stores</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
+</head>
 
-      <section id="downloads">
-        <span class="inner">
-          <a href="https://github.com/minad/moneta/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/minad/moneta/tarball/master" class="tgz"><em>download</em> .TGZ</a>
-        </span>
-      </section>
+<body>
 
+  <div class="wrapper">
+    <header>
+      <h1 class="title">Moneta</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">a unified interface to key/value stores</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/minad/moneta/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/minad/moneta/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/minad/moneta" class="code">View Moneta on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h1>Moneta: A unified interface for key/value stores</h1>
 
-      <span class="banner-fix"></span>
-
-
-      <section id="main_content">
-        <h1>Moneta: A unified interface for key/value stores</h1>
-
-<p><a href="http://travis-ci.org/minad/moneta"><img src="https://secure.travis-ci.org/minad/moneta.png?branch=master" alt="Build Status"></a> <a href="https://gemnasium.com/minad/moneta"><img src="https://gemnasium.com/minad/moneta.png?travis" alt="Dependency Status"></a> <a href="https://codeclimate.com/github/minad/moneta"><img src="https://codeclimate.com/badge.png" alt="Code Climate"></a></p>
+<p><a href="http://rubygems.org/gems/moneta"><img src="https://badge.fury.io/rb/moneta.png" alt="Gem Version"></a> <a href="http://travis-ci.org/minad/moneta"><img src="https://secure.travis-ci.org/minad/moneta.png?branch=master" alt="Build Status"></a> <a href="https://gemnasium.com/minad/moneta"><img src="https://gemnasium.com/minad/moneta.png?travis" alt="Dependency Status"></a> <a href="https://codeclimate.com/github/minad/moneta"><img src="https://codeclimate.com/badge.png" alt="Code Climate"></a></p>
 
 <p>Moneta provides a standard interface for interacting with various kinds of key/value stores. A short overview of the features:</p>
 
 <ul>
-<li>Supports a lot of backends (See below)</li>
+<li>Supports a lot of backends with consistent behaviour (See below)</li>
 <li>Allows a full configuration of the serialization -&gt; compression -&gt; adapter stack using proxies (Similar to <a href="http://rack.github.com/">Rack middlewares</a>)
 
 <ul>
@@ -63,13 +53,60 @@
 </ul>
 </li>
 <li>Expiration for all stores (Added via proxy <code>Moneta::Expires</code> if not supported natively)</li>
+<li>Atomic operations
+
+<ul>
 <li>Atomic incrementation and decrementation for most stores (Method <code>#increment</code> and <code>#decrement</code>)</li>
-<li>Includes a very simple key/value server (<code>Moneta::Server</code>) and client (<code>Moneta::Adapters::Client</code>)</li>
-<li>Integration with <a href="http://rubyonrails.org/">Rails</a>, <a href="http://rack.github.com/">Rack</a> as cookie and session store and <a href="https://github.com/rtomayko/rack-cache">Rack-Cache</a>
+<li>Atomic creation of entries (Method <code>#create</code>)</li>
+<li>Shared/distributed database-wide synchronization primitives <code>Moneta::Mutex</code> and <code>Moneta::Semaphore</code>
+</li>
+</ul>
+</li>
+<li>Includes a simple pure-ruby key/value server (<code>Moneta::Server</code>) and client (<code>Moneta::Adapters::Client</code>)</li>
+<li>Integration with <a href="http://rubyonrails.org/">Rails</a>, <a href="http://rack.github.com/">Rack</a>/<a href="https://github.com/rtomayko/rack-cache">Rack-Cache</a>, <a href="http://sinatrarb.com/">Sinatra</a> and <a href="http://ramaze.net/">Ramaze</a>.</li>
+</ul><p>If you are not yet convinced, you might ask why? What are the goals of the project?</p>
+
+<ul>
+<li>Get people started quickly with key/value stores! Therefore all the adapters are included in the gem and you are ready to go. <a href="https://github.com/rtomayko/tilt">Tilt</a> does the
+same for template languages.</li>
+<li>Make it easy to compare different key/value stores and benchmark them</li>
+<li>To hide a lot of different and maybe complex APIs behind one well-designed and simple Moneta API</li>
+<li>Give people a starting point or example code to start working with their favourite key/value store. Feel free to copy code, please mention Moneta then :)</li>
+<li>Create a reusable piece of code, since similar things are solved over and over again (<a href="http://rubyonrails.org/">Rails</a> brings its own cache stores, and many frameworks do the same...)</li>
+<li>See also <a href="http://yehudakatz.com/2009/02/12/whats-the-point/">http://yehudakatz.com/2009/02/12/whats-the-point/</a>
 </li>
 </ul><p>Moneta is tested thoroughly using <a href="http://travis-ci.org/minad/moneta">Travis-CI</a>.</p>
 
-<h2>Links</h2>
+<hr><h2>Getting started</h2>
+
+<p>Install Moneta via Rubygems</p>
+
+<pre><code>$ gem install moneta
+</code></pre>
+
+<p>or add it to your Gemfile</p>
+
+<div class="highlight"><pre><span class="n">gem</span> <span class="s1">'moneta'</span>
+</pre></div>
+
+<p>Now you are ready to go:</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'moneta'</span>
+
+<span class="c1"># Create a simple file store</span>
+<span class="n">store</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:File</span><span class="p">,</span> <span class="ss">:dir</span> <span class="o">=&gt;</span> <span class="s1">'moneta'</span><span class="p">)</span>
+
+<span class="c1"># Store some entries</span>
+<span class="n">store</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'value'</span>
+
+<span class="c1"># Read entry</span>
+<span class="n">store</span><span class="o">.</span><span class="n">key?</span><span class="p">(</span><span class="s1">'key'</span><span class="p">)</span> <span class="c1"># returns true</span>
+<span class="n">store</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span> <span class="c1"># returns 'value'</span>
+
+<span class="n">store</span><span class="o">.</span><span class="n">close</span>
+</pre></div>
+
+<hr><h2>Links</h2>
 
 <ul>
 <li>Source: <a href="http://github.com/minad/moneta">http://github.com/minad/moneta</a>
@@ -85,9 +122,9 @@
 </li>
 </ul>
 </li>
-</ul><h2>Supported backends</h2>
+</ul><hr><h2>Supported backends</h2>
 
-<p>Out of the box, it supports the following backends:</p>
+<p>Out of the box, it supports the following backends. Use the backend name symbol in the Moneta constructor (e.g. <code>Moneta.new(:Memory)</code>).</p>
 
 <ul>
 <li>Memory:
@@ -95,24 +132,32 @@
 <ul>
 <li>In-memory store (<code>:Memory</code>)</li>
 <li>LRU hash - prefer this over :Memory! (<code>:LRUHash</code>)</li>
-<li>LocalMemCache (<code>:LocalMemCache</code>)</li>
-<li>Memcached store (<code>:Memcached</code>, <code>:MemcachedNative</code> and <code>:MemcachedDalli</code>)</li>
+<li>
+<a href="http://localmemcache.rubyforge.org/">LocalMemCache</a> (<code>:LocalMemCache</code>)</li>
+<li>
+<a href="http://memcached.org/">Memcached</a> store (<code>:Memcached</code>, <code>:MemcachedNative</code> and <code>:MemcachedDalli</code>)</li>
 </ul>
 </li>
 <li>Relational Databases:
 
 <ul>
-<li>DataMapper (<code>:DataMapper</code>)</li>
-<li>ActiveRecord (<code>:ActiveRecord</code>)</li>
-<li>Sequel (<code>:Sequel</code>)</li>
-<li>Sqlite3 (<code>:Sqlite</code>)</li>
+<li>
+<a href="http://datamapper.org/">DataMapper</a> (<code>:DataMapper</code>)</li>
+<li>
+<a href="https://rubygems.org/gems/activerecord">ActiveRecord</a> (<code>:ActiveRecord</code>)</li>
+<li>
+<a href="http://sequel.rubyforge.org/">Sequel</a> (<code>:Sequel</code>)</li>
+<li>
+<a href="http://sqlite.org/">Sqlite3</a> (<code>:Sqlite</code>)</li>
 </ul>
 </li>
 <li>Filesystem:
 
 <ul>
-<li>PStore (<code>:PStore</code>)</li>
-<li>YAML store (<code>:YAML</code>)</li>
+<li>
+<a href="http://ruby-doc.org/stdlib/libdoc/pstore/rdoc/PStore.html">PStore</a> (<code>:PStore</code>)</li>
+<li>
+<a href="http://www.ruby-doc.org/stdlib/libdoc/yaml/rdoc/YAML/Store.html">YAML</a> store (<code>:YAML</code>)</li>
 <li>Filesystem directory store (<code>:File</code>)</li>
 <li>Filesystem directory store which spreads files in subdirectories using md5 hash (<code>:HashFile</code>)</li>
 </ul>
@@ -120,29 +165,53 @@
 <li>Key/value databases:
 
 <ul>
-<li>Berkeley DB (<code>:DBM</code>)</li>
-<li>Cassandra (<code>:Cassandra</code>)</li>
-<li>GDBM (<code>:GDBM</code>)</li>
-<li>HBase (<code>:HBase</code>)</li>
-<li>LevelDB (<code>:LevelDB</code>)</li>
-<li>Redis (<code>:Redis</code>)</li>
-<li>Riak (<code>:Riak</code>)</li>
-<li>SDBM (<code>:SDBM</code>)</li>
-<li>TokyoCabinet (<code>:TokyoCabinet</code>)</li>
+<li>
+<a href="http://www.ruby-doc.org/stdlib/libdoc/dbm/rdoc/DBM.html">Berkeley DB</a> (<code>:DBM</code>)</li>
+<li>
+<a href="http://cassandra.apache.org/">Cassandra</a> (<code>:Cassandra</code>)</li>
+<li>
+<a href="http://propublica.github.com/daybreak/">Daybreak</a> (<code>:Daybreak</code>)</li>
+<li>
+<a href="http://www.ruby-doc.org/stdlib/libdoc/gdbm/rdoc/GDBM.html">GDBM</a> (<code>:GDBM</code>)</li>
+<li>
+<a href="http://hbase.apache.org/">HBase</a> (<code>:HBase</code>)</li>
+<li>
+<a href="http://code.google.com/p/leveldb/">LevelDB</a> (<code>:LevelDB</code>)</li>
+<li>
+<a href="http://redis.io/">Redis</a> (<code>:Redis</code>)</li>
+<li>
+<a href="http://docs.basho.com/">Riak</a> (<code>:Riak</code>)</li>
+<li>
+<a href="http://www.ruby-doc.org/stdlib/libdoc/sdbm/rdoc/SDBM.html">SDBM</a> (<code>:SDBM</code>)</li>
+<li>
+<a href="http://fallabs.com/kyotocabinet/">KyotoCabinet</a> (<code>:KyotoCabinet</code>)</li>
+<li>
+<a href="http://fallabs.com/tokyocabinet/">TokyoCabinet</a> (<code>:TokyoCabinet</code>)</li>
+<li>
+<a href="http://tdb.samba.org/">Simple Samba database TDB</a> (<code>:TDB</code>)</li>
 </ul>
 </li>
 <li>Document databases:
 
 <ul>
-<li>CouchDB (<code>:Couch</code>)</li>
-<li>MongoDB (<code>:Mongo</code>)</li>
+<li>
+<a href="http://couchdb.apache.org/">CouchDB</a> (<code>:Couch</code>)</li>
+<li>
+<a href="http://www.mongodb.org/">MongoDB</a> (<code>:Mongo</code>)</li>
+</ul>
+</li>
+<li>Moneta network protocols:
+
+<ul>
+<li>Moneta key/value client (<code>:Client</code> works with <code>Moneta::Server</code>)</li>
+<li>Moneta HTTP/REST client (<code>:RestClient</code> works with <code>Rack::MonetaRest</code>)</li>
 </ul>
 </li>
 <li>Other
 
 <ul>
-<li>Moneta key/value server client (<code>:Client</code> works with <code>Moneta::Server</code>)</li>
-<li>Fog cloud storage which supports Amazon S3, Rackspace, etc. (<code>:Fog</code>)</li>
+<li>
+<a href="http://fog.io/">Fog</a> cloud storage which supports Amazon S3, Rackspace, etc. (<code>:Fog</code>)</li>
 <li>Storage which doesn't store anything (<code>:Null</code>)</li>
 </ul>
 </li>
@@ -151,7 +220,433 @@ are useful if you already use the corresponding backend in your application. You
 store for free then without installing any additional services and you still have the possibility
 to upgrade to a real key/value store.</p>
 
-<h2>Proxies</h2>
+<h3>Backend feature matrix</h3>
+
+<p><strong>NOTE:</strong> <a name="backend-matrix">The backend matrix</a> is much more readable on rubydoc.info than on github. <a href="http://rubydoc.info/github/minad/moneta/master/file/README.md#backend-matrix">Go there!</a></p>
+
+<table>
+<tr>
+<th>Adapter</th>
+<th>Required gems</th>
+<th>Multi-thread safe<sup>[1]</sup>
+</th>
+<th>Multi-process safe<sup>[2]</sup>
+</th>
+<th>Atomic increment<sup>[8]</sup>
+</th>
+<th>Atomic create<sup>[9]</sup>
+</th>
+<th>Native expires<sup>[3]</sup>
+</th>
+<th>Persistent</th>
+<th>Description</th>
+</tr>
+<tr>
+<th colspan="2">Persistent stores</th>
+<th colspan="7"></th>
+</tr>
+<tr>
+<td>Mongo</td>
+<td>mongo</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>
+<a href="http://www.mongodb.org/">MongoDB</a> database</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>redis</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>
+<a href="http://redis.io/">Redis</a> database</td>
+</tr>
+<tr>
+<td>ActiveRecord</td>
+<td>activerecord</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="https://rubygems.org/gems/activerecord">ActiveRecord</a> ORM</td>
+</tr>
+<tr>
+<td>File</td>
+<td>-</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>File store</td>
+</tr>
+<tr>
+<td>Sequel</td>
+<td>sequel</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://sequel.rubyforge.org/">Sequel</a> ORM</td>
+</tr>
+<tr>
+<td>Sqlite</td>
+<td>sqlite3</td>
+<td>?</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://sqlite.org/">Sqlite3</a> database</td>
+</tr>
+<tr>
+<td>PStore</td>
+<td>-</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://ruby-doc.org/stdlib/libdoc/pstore/rdoc/PStore.html">PStore</a> store</td>
+</tr>
+<tr>
+<td>YAML</td>
+<td>-</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://www.ruby-doc.org/stdlib/libdoc/yaml/rdoc/YAML/Store.html">YAML</a> store</td>
+</tr>
+<tr>
+<td>Daybreak</td>
+<td>daybreak</td>
+<td>✗</td>
+<td>(✓)<sup>[7]</sup>
+</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>Incredibly fast pure-ruby key/value store <a href="http://propublica.github.com/daybreak/">Daybreak</a>
+</td>
+</tr>
+<tr>
+<td>DBM</td>
+<td>-</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td><a href="http://www.ruby-doc.org/stdlib/libdoc/dbm/rdoc/DBM.html">Berkeley DB</a></td>
+</tr>
+<tr>
+<td>GDBM</td>
+<td>-</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://www.ruby-doc.org/stdlib/libdoc/gdbm/rdoc/GDBM.html">GDBM</a> database</td>
+</tr>
+<tr>
+<td>LevelDB</td>
+<td>leveldb</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://code.google.com/p/leveldb/">LevelDB</a> database</td>
+</tr>
+<tr>
+<td>SDBM</td>
+<td>-</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://www.ruby-doc.org/stdlib/libdoc/sdbm/rdoc/SDBM.html">SDBM</a> database</td>
+</tr>
+<tr>
+<td>TDB</td>
+<td>tdb</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://tdb.samba.org/">TDB</a> database</td>
+</tr>
+<tr>
+<td>KyotoCabinet</td>
+<td>tokoycabinet</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://fallabs.com/kyotocabinet/">KyotoCabinet</a> database</td>
+</tr>
+<tr>
+<td>TokyoCabinet</td>
+<td>tokoycabinet</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://fallabs.com/tokyocabinet/">TokyoCabinet</a> database</td>
+</tr>
+<tr>
+<td>DataMapper</td>
+<td>dm-core, dm-migrations</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://datamapper.org/">DataMapper</a> ORM</td>
+</tr>
+<tr>
+<td>Cassandra</td>
+<td>cassandra</td>
+<td>?</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+<td>
+<a href="http://cassandra.apache.org/">Cassandra</a> distributed database</td>
+</tr>
+<tr>
+<td>LocalMemCache</td>
+<td>localmemcache</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://localmemcache.rubyforge.org/">LocalMemCache</a> database</td>
+</tr>
+<tr>
+<td>Couch</td>
+<td>couchrest</td>
+<td>?</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://couchdb.apache.org/">CouchDB</a> database</td>
+</tr>
+<tr>
+<td>Fog</td>
+<td>fog</td>
+<td>?</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://fog.io/">Fog</a> cloud store</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td>hbase</td>
+<td>?</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://hbase.apache.org/">HBase</a> database</td>
+</tr>
+<tr>
+<td>Riak</td>
+<td>riak-client</td>
+<td>✗</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+<td>
+<a href="http://docs.basho.com/">Riak</a> database</td>
+</tr>
+<tr>
+<th colspan="2">Non persistent stores</th>
+<th colspan="7"></th>
+</tr>
+<tr>
+<td>MemcachedDalli</td>
+<td>dalli</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗<sup>[4]</sup>
+</td>
+<td>
+<a href="http://memcached.org/">Memcached</a> database with Dalli library</td>
+</tr>
+<tr>
+<td>Memcached</td>
+<td>dalli or memcached</td>
+<td>?</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗<sup>[4]</sup>
+</td>
+<td>
+<a href="http://memcached.org/">Memcached</a> database</td>
+</tr>
+<tr>
+<td>MemcachedNative</td>
+<td>memcached</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗<sup>[4]</sup>
+</td>
+<td>Memcached database with native library</td>
+</tr>
+<tr>
+<td>Cookie</td>
+<td>-</td>
+<td>✗</td>
+<td>(✓)<sup>[6]</sup>
+</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>Cookie in memory store</td>
+</tr>
+<tr>
+<td>LRUHash</td>
+<td>-</td>
+<td>✗</td>
+<td>(✓)<sup>[6]</sup>
+</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>LRU memory store</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>-</td>
+<td>✗</td>
+<td>(✓)<sup>[6]</sup>
+</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>Memory store</td>
+</tr>
+<tr>
+<td>Null</td>
+<td>-</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>No database</td>
+</tr>
+<tr>
+<td>Client</td>
+<td>-</td>
+<td>✗</td>
+<td>✓</td>
+<td>?<sup>[5]</sup>
+</td>
+<td>?<sup>[5]</sup>
+</td>
+<td>?<sup>[5]</sup>
+</td>
+<td>?<sup>[5]</sup>
+</td>
+<td>Moneta client adapter</td>
+</tr>
+<tr>
+<td>RestClient</td>
+<td>-</td>
+<td>✗</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+<td>✗</td>
+<td>?<sup>[5]</sup>
+</td>
+<td>Moneta REST client adapter</td>
+</tr>
+</table><ul>
+<li>[1]: Make adapters thread-safe by using <code>Moneta::Lock</code> or by passing the option <code>:threadsafe =&gt; true</code> to <code>Moneta#new</code>. There is also <code>Moneta::Pool</code> which can be used to share a store between multiple threads if the store is multi-process safe. I recommend to add the option <code>:threadsafe</code> to ensure thread-safety since for example under JRuby and Rubinius even the basic datastructures are not thread safe due to the lack of a global interpreter lock (GIL). This differs from MRI where some adapters might appear thread safe already but only due to the GIL.</li>
+<li>[2]: Share a Moneta store between multiple processes using <code>Moneta::Shared</code> (See below).</li>
+<li>[3]: Add expiration support by using <code>Moneta::Expires</code> or by passing the option <code>:expires =&gt; true</code> to <code>Moneta#new</code>.</li>
+<li>[4]: There are some servers which use the memcached protocol but which are persistent (e.g. <a href="http://memcachedb.org/">MemcacheDB</a>, <a href="http://sourceforge.net/apps/mediawiki/kai">Kai</a>, <a href="http://dev.iron.io/cache/reference/memcache/">IronCache</a>, <a href="https://github.com/roma/roma/tree">Roma</a>)</li>
+<li>[5]: Depends on server</li>
+<li>[6]: Store is multi-process safe because it is an in-memory store, values are not shared between multiple processes</li>
+<li>[7]: Store is multi-process safe, but not synchronized automatically between multiple processes</li>
+<li>[8]: If a store provides atomic increment it can be used with <code>Moneta::Semaphore</code>. You can add weak <code>#increment</code> using the <code>Moneta::WeakIncrement</code> proxy.</li>
+<li>[8]: If a store provides atomic creation it can be used with <code>Moneta::Mutex</code>. You can add weak <code>#create</code> using the <code>Moneta::WeakCreate</code> proxy.</li>
+</ul><hr><h2>Proxies</h2>
 
 <p>In addition it supports proxies (Similar to <a href="http://rack.github.com/">Rack middlewares</a>) which
 add additional features to storage backends:</p>
@@ -162,18 +657,22 @@ add additional features to storage backends:</p>
 <li>
 <code>Moneta::Expires</code> to add expiration support to stores which don't support it natively. Add it in the builder using <code>use :Expires</code>.</li>
 <li>
-<code>Moneta::Stack</code> to stack multiple stores (Read returns result from first where the key is found, writes go to all stores). Add it in the builder using <code>use :Stack</code>.</li>
+<code>Moneta::Stack</code> to stack multiple stores (Read returns result from first where the key is found, writes go to all stores). Add it in the builder using <code>use(:Stack) {}</code>.</li>
 <li>
 <code>Moneta::Transformer</code> transforms keys and values (Marshal, YAML, JSON, Base64, MD5, ...). Add it in the builder using <code>use :Transformer</code>.</li>
 <li>
-<code>Moneta::Cache</code> combine two stores, one as backend and one as cache (e.g. <code>Moneta::Adapters::File</code> + <code>Moneta::Adapters::Memory</code>). Add it in the builder using <code>use :Cache</code>.</li>
+<code>Moneta::Cache</code> combine two stores, one as backend and one as cache (e.g. <code>Moneta::Adapters::File</code> + <code>Moneta::Adapters::Memory</code>). Add it in the builder using <code>use(:Cache) {}</code>.</li>
 <li>
 <code>Moneta::Lock</code> to make store thread safe. Add it in the builder using <code>use :Lock</code>.</li>
 <li>
+<code>Moneta::Pool</code> to create a pool of stores as a means of making the store thread safe. Add it in the builder using <code>use(:Pool) {}</code>.</li>
+<li>
 <code>Moneta::Logger</code> to log database accesses. Add it in the builder using <code>use :Logger</code>.</li>
 <li>
-<code>Moneta::Shared</code> to share a store between multiple processes. Add it in the builder using <code>use :Shared</code>.</li>
-</ul><h2>Supported serializers and compressors (<code>Moneta::Transformer</code>)</h2>
+<code>Moneta::Shared</code> to share a store between multiple processes. Add it in the builder using <code>use(:Shared) {}</code>.</li>
+<li>
+<code>Moneta::WeakIncrement</code> and <code>Moneta::WeakCreate</code> to add <code>#create</code> and <code>#increment</code> support without atomicity (weak) to stores which don't support it.</li>
+</ul><h3>Serializers and compressors (<code>Moneta::Transformer</code>)</h3>
 
 <p>Supported serializers:</p>
 
@@ -201,10 +700,10 @@ add additional features to storage backends:</p>
 <li>Digests (MD5, Shas, ...)</li>
 <li>Add prefix to keys (<code>:prefix</code>)</li>
 <li>HMAC to verify values (<code>:hmac</code>, useful for <code>Rack::MonetaCookies</code>)</li>
-</ul><h2>Moneta API</h2>
+</ul><hr><h2>Moneta API</h2>
 
 <p>The Moneta API is purposely extremely similar to the Hash API with a few minor additions.
-There are the additional methods <code>#load</code>, <code>#increment</code>, <code>#decrement</code> and <code>#close</code>. Every method takes also a optional
+There are the additional methods <code>#load</code>, <code>#increment</code>, <code>#decrement</code>, <code>#create</code> and <code>#close</code>. Every method takes also a optional
 option hash. In order so support an identical API across stores, Moneta does not support iteration or partial matches.</p>
 
 <pre><code>#initialize(options)                      options differs per-store, and is used to set up the store.
@@ -227,12 +726,15 @@ option hash. In order so support an identical API across stores, Moneta does not
 
 #key?(key, options = {})                  true if the key exists, false if it does not.
 
-#increment(key, amount = 1, options = {}) increment numeric value. This is a atomic operation
+#increment(key, amount = 1, options = {}) increment numeric value. This is an atomic operation
                                           which is not supported by all stores. Returns current value.
 
-#decrement(key, amount = 1, options = {}) increment numeric value. This is a atomic operation
+#decrement(key, amount = 1, options = {}) increment numeric value. This is an atomic operation
                                           which is not supported by all stores. Returns current value.
                                           This is just syntactic sugar for incrementing with a negative value.
+
+#create(key, value, options = {})         create entry. This is an atomic operation which is not supported by all stores.
+                                          Returns true if the value was created.
 
 #clear(options = {})                      clear all keys in this store.
 
@@ -260,7 +762,7 @@ option hash. In order so support an identical API across stores, Moneta does not
 
 <h3>Expiration</h3>
 
-<p>The Cassandra, Memcached and Redis backends supports expires values directly:</p>
+<p>The Cassandra, Memcached, Redis and Mongo backends support expiration natively.</p>
 
 <div class="highlight"><pre><span class="n">cache</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">::</span><span class="no">Adapters</span><span class="o">::</span><span class="no">Memcached</span><span class="o">.</span><span class="n">new</span>
 
@@ -272,12 +774,21 @@ option hash. In order so support an identical API across stores, Moneta does not
 <span class="c1"># Expires in 60 seconds</span>
 <span class="n">cache</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="mi">60</span><span class="p">)</span>
 
+<span class="c1"># Never expire</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">)</span>
+
 <span class="c1"># Update expires time if value is found</span>
 <span class="n">cache</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">)</span>
 <span class="n">cache</span><span class="o">.</span><span class="n">key?</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">)</span>
+
+<span class="c1"># Or remove the expiration if found</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">)</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">key?</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
-<p>You can add the expires feature to other backends using the Expires proxy:</p>
+<p>You can add the expires feature to other backends using the <code>Moneta::Expires</code> proxy. But be aware
+that expired values are not deleted automatically if they are not looked up.</p>
 
 <div class="highlight"><pre><span class="c1"># Using the :expires option</span>
 <span class="n">cache</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:File</span><span class="p">,</span> <span class="ss">:dir</span> <span class="o">=&gt;</span> <span class="s1">'...'</span><span class="p">,</span> <span class="ss">:expires</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
@@ -292,7 +803,9 @@ option hash. In order so support an identical API across stores, Moneta does not
 <span class="k">end</span>
 </pre></div>
 
-<h3>Incrementation and raw access</h3>
+<h3>Atomic operations</h3>
+
+<h4>Atomic incrementation and raw access</h4>
 
 <p>The stores support the <code>#increment</code> which allows atomic increments of unsigned integer values. If you increment
 a non existing value, it will be created. If you increment a non integer value an exception will be raised.</p>
@@ -339,33 +852,67 @@ if you have a <code>Moneta::Transformer</code> somewhere in your proxy stack whi
 <span class="n">counters</span><span class="o">.</span><span class="n">increment</span><span class="p">(</span><span class="s1">'counter'</span><span class="p">)</span> <span class="c1"># returns 11</span>
 </pre></div>
 
-<p>Stores which support incrementation (you have to use <code>Moneta::Lock</code> if you want to use the store in a multithreading environment.)</p>
+<h4>Atomic create</h4>
 
-<ul>
-<li>ActiveRecord</li>
-<li>File</li>
-<li>HBase</li>
-<li>LRUHash</li>
-<li>LevelDB</li>
-<li>Memcached</li>
-<li>Memory</li>
-<li>Redis</li>
-<li>SDBM/DBM/GDBM</li>
-<li>Sequel</li>
-<li>Sqlite</li>
-<li>TokyoCabinet</li>
-<li>YAML/PStore</li>
-</ul><p>Stores which don't support incrementation:</p>
+<p>The stores support the <code>#create</code> which allows atomic creation of entries. <code>#create</code> returns true
+if the value was created.</p>
 
-<ul>
-<li>Cassandra</li>
-<li>Couch</li>
-<li>DataMapper</li>
-<li>Fog</li>
-<li>LocalMemCache</li>
-<li>Mongo</li>
-<li>Riak</li>
-</ul><h3>Syntactic sugar and option merger</h3>
+<div class="highlight"><pre><span class="n">store</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">'key'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">)</span> <span class="c1"># returns true</span>
+<span class="n">store</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s1">'key'</span><span class="p">,</span> <span class="s1">'other value'</span><span class="p">)</span> <span class="c1"># returns false</span>
+</pre></div>
+
+<h4>Shared/distributed synchronization primitives</h4>
+
+<p>Moneta provides shared/distributed synchronization primitives which are shared database-wide between
+all clients.</p>
+
+<p><code>Moneta::Mutex</code> allows a single thread to enter a critical section.</p>
+
+<div class="highlight"><pre><span class="n">mutex</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">::</span><span class="no">Mutex</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="s1">'mutex_key'</span><span class="p">)</span>
+
+<span class="n">mutex</span><span class="o">.</span><span class="n">synchronize</span> <span class="k">do</span>
+   <span class="n">mutex</span><span class="o">.</span><span class="n">locked?</span> <span class="c1"># returns true</span>
+
+   <span class="c1"># Synchronized access to counter</span>
+   <span class="n">store</span><span class="o">[</span><span class="s1">'counter'</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="k">begin</span>
+  <span class="n">mutex</span><span class="o">.</span><span class="n">lock</span>
+  <span class="n">mutex</span><span class="o">.</span><span class="n">locked?</span> <span class="c1"># returns true</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="k">ensure</span>
+  <span class="n">mutex</span><span class="o">.</span><span class="n">unlock</span>
+<span class="k">end</span>
+</pre></div>
+
+<p><code>Moneta::Semaphore</code> allows <code>max_concurrent</code> threads to enter a critical section.</p>
+
+<div class="highlight"><pre><span class="n">semaphore</span> <span class="o">=</span> <span class="no">Moneta</span><span class="o">::</span><span class="no">Semaphore</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="s1">'semaphore_counter'</span><span class="p">,</span> <span class="n">max_concurrent</span><span class="p">)</span>
+
+<span class="n">semaphore</span><span class="o">.</span><span class="n">synchronize</span> <span class="k">do</span>
+   <span class="n">semaphore</span><span class="o">.</span><span class="n">locked?</span> <span class="c1"># returns true</span>
+   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="k">end</span>
+
+<span class="k">begin</span>
+  <span class="n">semaphore</span><span class="o">.</span><span class="n">enter</span>
+  <span class="n">semaphore</span><span class="o">.</span><span class="n">locked?</span> <span class="c1"># returns true</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="k">ensure</span>
+  <span class="n">semaphore</span><span class="o">.</span><span class="n">leave</span>
+<span class="k">end</span>
+</pre></div>
+
+<h4>Weak atomic operations</h4>
+
+<p>If an underlying adapter doesn't provide atomic <code>#create</code> or <code>#increment</code> and <code>#decrement</code> you can
+use the proxies <code>Moneta::WeakIncrement</code> and <code>Moneta::WeakCreate</code> to add support without atomicity.</p>
+
+<p>But then you have to ensure that the store is not shared by multiple processes and thread-safety is
+provided by <code>Moneta::Lock</code>.</p>
+
+<h3>Syntactic sugar and option merger</h3>
 
 <p>For raw data access as described before the class <code>Moneta::OptionMerger</code> is used. It works like this:</p>
 
@@ -390,13 +937,60 @@ if you have a <code>Moneta::Transformer</code> somewhere in your proxy stack whi
 <span class="n">short_lived_store</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'value'</span>
 </pre></div>
 
-<h2>Framework Integration</h2>
+<h3>Add proxies to existing store</h3>
 
-<p>Inspired by <a href="https://github.com/jodosha/redis-store">redis-store</a> there exist integration classes for <a href="http://rubyonrails.org/">Rails</a>, <a href="http://rack.github.com/">Rack</a> and <a href="https://github.com/rtomayko/rack-cache">Rack-Cache</a>.</p>
+<p>You can add proxies to an existing store. This is useful if you want to compress only a few values for example.</p>
 
-<h3>Rack session store</h3>
+<div class="highlight"><pre><span class="n">compressed_store</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="ss">:prefix</span> <span class="o">=&gt;</span> <span class="s1">'compressed'</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">use</span> <span class="ss">:Transformer</span><span class="p">,</span> <span class="ss">:value</span> <span class="o">=&gt;</span> <span class="ss">:zlib</span>
+<span class="k">end</span>
 
-<p>Use Moneta as a <a href="http://rack.github.com/">Rack</a> session store:</p>
+<span class="n">store</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'this value will not be compressed'</span>
+<span class="n">compressed_store</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'value will be compressed'</span>
+</pre></div>
+
+<hr><h2>Framework Integration</h2>
+
+<p>Inspired by <a href="https://github.com/jodosha/redis-store">redis-store</a> there exist integration classes for <a href="http://rubyonrails.org/">Rails</a> and <a href="http://rack.github.com/">Rack</a>/<a href="https://github.com/rtomayko/rack-cache">Rack-Cache</a>. You can also use all the Rack middlewares together with Rails and the <a href="http://sinatrarb.com/">Sinatra</a> framework. There exist the following integration classes:</p>
+
+<ul>
+<li>Rack, Rails and Sinatra
+
+<ul>
+<li>
+<code>Rack::Session::Moneta</code> is a Rack middleware to use Moneta for storing sessions</li>
+<li>
+<code>Rack::MonetaStore</code> is a Rack middleware which places a Moneta store in the environment and enables per-request caching</li>
+<li>
+<code>Rack::MonetaCookies</code> is a Rack middleware which uses Moneta to store cookies</li>
+<li>
+<code>Rack::MonetaRest</code> is a Rack application which exposes a Moneta store via REST/HTTP</li>
+<li>
+<code>Rack::Cache::Moneta</code> provides meta and entity stores for Rack-Cache</li>
+</ul>
+</li>
+<li>Rails
+
+<ul>
+<li>
+<code>ActionDispatch::Session::MonetaStore</code> is a Rails middleware to use Moneta for storing sessions</li>
+<li>
+<code>ActiveSupport::Cache::MonetaStore</code> is a Rails cache implementation which uses a Moneta store as backend</li>
+</ul>
+</li>
+<li>Ramaze
+
+<ul>
+<li>
+<code>Ramaze::Cache::Moneta</code> is integrated into the <a href="http://ramaze.net/">Ramaze</a> project and allows Ramaze to use
+Moneta as caching store</li>
+</ul>
+</li>
+</ul><h3>Rack</h3>
+
+<h4>Session store</h4>
+
+<p>You can use Moneta as a <a href="http://rack.github.com/">Rack</a> session store. Use it in your <code>config.ru</code> like this:</p>
 
 <div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/session/moneta'</span>
 
@@ -413,9 +1007,49 @@ if you have a <code>Moneta::Transformer</code> somewhere in your proxy stack whi
 <span class="k">end</span>
 </pre></div>
 
-<h3>Rack cache</h3>
+<h4>Moneta middleware</h4>
 
-<p>Use Moneta as a <a href="https://github.com/rtomayko/rack-cache">Rack-Cache</a> store:</p>
+<p>There is a simple middleware which places a Moneta store in the Rack environment at <code>env['rack.moneta_store']</code>. It supports per-request
+caching if you add the option <code>:cache =&gt; true</code>. Use it in your <code>config.ru</code> like this:</p>
+
+<div class="highlight"><pre><span class="c1"># Add Rack::MonetaStore somewhere in your rack stack</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">MonetaStore</span><span class="p">,</span> <span class="ss">:Memory</span><span class="p">,</span> <span class="ss">:cache</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+
+<span class="n">run</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">env</span><span class="o">|</span>
+  <span class="n">env</span><span class="o">[</span><span class="s1">'rack.moneta_store'</span><span class="o">]</span> <span class="c1"># is a Moneta store with per-request caching</span>
+<span class="p">}</span>
+
+<span class="c1"># Pass it a block like the one passed to Moneta.build</span>
+<span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">MonetaStore</span> <span class="k">do</span>
+  <span class="n">use</span> <span class="ss">:Transformer</span><span class="p">,</span> <span class="ss">:value</span> <span class="o">=&gt;</span> <span class="ss">:zlib</span>
+  <span class="n">adapter</span> <span class="ss">:Cookie</span>
+<span class="k">end</span>
+
+<span class="n">run</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">env</span><span class="o">|</span>
+  <span class="n">env</span><span class="o">[</span><span class="s1">'rack.moneta_store'</span><span class="o">]</span> <span class="c1"># is a Moneta store without caching</span>
+<span class="p">}</span>
+</pre></div>
+
+<h4>REST server</h4>
+
+<p>If you want to expose your Moneta key/value store via HTTP, you can use the Rack/Moneta REST service. Use it in your <code>config.ru</code> like this:</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/moneta_rest'</span>
+
+<span class="n">map</span> <span class="s1">'/moneta'</span> <span class="k">do</span>
+  <span class="n">run</span> <span class="no">Rack</span><span class="o">::</span><span class="no">MonetaRest</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:Memory</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1"># Or pass it a block like the one passed to Moneta.build</span>
+<span class="n">run</span> <span class="no">Rack</span><span class="o">::</span><span class="no">MonetaRest</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span>
+  <span class="n">use</span> <span class="ss">:Transformer</span><span class="p">,</span> <span class="ss">:value</span> <span class="o">=&gt;</span> <span class="ss">:zlib</span>
+  <span class="n">adapter</span> <span class="ss">:Memory</span>
+<span class="k">end</span>
+</pre></div>
+
+<h4>Rack-Cache</h4>
+
+<p>You can use Moneta as a <a href="https://github.com/rtomayko/rack-cache">Rack-Cache</a> store. Use it in your <code>config.ru</code> like this:</p>
 
 <div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/cache/moneta'</span>
 
@@ -433,7 +1067,7 @@ if you have a <code>Moneta::Transformer</code> somewhere in your proxy stack whi
       <span class="ss">:entity_store</span> <span class="o">=&gt;</span> <span class="s1">'moneta://named_entitystore'</span>
 </pre></div>
 
-<h3>Rack cookies</h3>
+<h4>Cookies</h4>
 
 <p>Use Moneta to store cookies in <a href="http://rack.github.com/">Rack</a>. It uses the <code>Moneta::Adapters::Cookie</code>. You might
 wonder what the purpose of this store or Rack middleware is: It makes it possible
@@ -442,7 +1076,7 @@ to use all the transformers on the cookies (e.g. <code>:prefix</code>, <code>:ma
 <div class="highlight"><pre><span class="nb">require</span> <span class="s1">'rack/moneta_cookies'</span>
 
 <span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">MonetaCookies</span><span class="p">,</span> <span class="ss">:domain</span> <span class="o">=&gt;</span> <span class="s1">'example.com'</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">'/path'</span>
-<span class="n">run</span> <span class="nb">lambda</span> <span class="k">do</span> <span class="o">|</span><span class="n">env</span><span class="o">|</span>
+<span class="n">run</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">env</span><span class="o">|</span>
   <span class="n">req</span> <span class="o">=</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Request</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
   <span class="n">req</span><span class="o">.</span><span class="n">cookies</span> <span class="c1">#=&gt; is now a Moneta store!</span>
   <span class="n">env</span><span class="o">[</span><span class="s1">'rack.request.cookie_hash'</span><span class="o">]</span> <span class="c1">#=&gt; is now a Moneta store!</span>
@@ -450,10 +1084,12 @@ to use all the transformers on the cookies (e.g. <code>:prefix</code>, <code>:ma
   <span class="n">req</span><span class="o">.</span><span class="n">cookies</span><span class="o">[</span><span class="s1">'key'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'value'</span> <span class="c1">#=&gt; sets 'key'</span>
   <span class="n">req</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">'key'</span><span class="p">)</span> <span class="c1">#=&gt; removes 'key'</span>
   <span class="o">[</span><span class="mi">200</span><span class="p">,</span> <span class="p">{},</span> <span class="o">[]]</span>
-<span class="k">end</span>
+<span class="p">}</span>
 </pre></div>
 
-<h3>Rails session store</h3>
+<h3>Rails</h3>
+
+<h4>Session store</h4>
 
 <p>Add the session store in your application configuration <code>config/environments/*.rb</code>.</p>
 
@@ -472,7 +1108,7 @@ to use all the transformers on the cookies (e.g. <code>:prefix</code>, <code>:ma
 <span class="k">end</span>
 </pre></div>
 
-<h3>Rails cache store</h3>
+<h4>Cache store</h4>
 
 <p>Add the cache store in your application configuration <code>config/environments/*.rb</code>. Unfortunately the
 Moneta cache store doesn't support matchers. If you need these features use a different server-specific implementation.</p>
@@ -492,7 +1128,7 @@ Moneta cache store doesn't support matchers. If you need these features use a di
 <span class="k">end</span>
 </pre></div>
 
-<h2>Advanced</h2>
+<hr><h2>Advanced</h2>
 
 <h3>Build your own key value server</h3>
 
@@ -537,7 +1173,7 @@ add persistence using Moneta as follows:</p>
 <span class="no">Person</span><span class="o">.</span><span class="n">adapter</span> <span class="ss">:memory</span><span class="p">,</span> <span class="no">Moneta</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:Redis</span><span class="p">)</span>
 </pre></div>
 
-<h2>Testing and Benchmarks</h2>
+<hr><h2>Testing and Benchmarks</h2>
 
 <p>Testing is done using <a href="http://travis-ci.org/minad/moneta">Travis-CI</a>. Currently we support Ruby 1.8.7 and 1.9.3.</p>
 
@@ -546,43 +1182,50 @@ to compare the speed of the different key value stores for different key/value s
 Feel free to add your own configurations! The impact of Moneta should be minimal since it is only a thin layer
 on top of the different stores.</p>
 
-<h2>More information</h2>
-
-<ul>
-<li><a href="http://yehudakatz.com/2009/02/12/whats-the-point/">http://yehudakatz.com/2009/02/12/whats-the-point/</a></li>
-<li><a href="http://yehudakatz.com/2009/02/12/initial-release-of-moneta-unified-keyvalue-store-api/">http://yehudakatz.com/2009/02/12/initial-release-of-moneta-unified-keyvalue-store-api/</a></li>
-</ul><h2>Alternatives</h2>
+<hr><h2>Alternatives</h2>
 
 <ul>
 <li>
 <a href="https://github.com/technoweenie/horcrux">Horcrux</a>: Used at github, supports batch operations but only Memcached backend</li>
 <li>
+<a href="http://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html">ActiveSupport::Cache::Store</a>: The Rails cache store abstraction</li>
+<li>
+<a href="http://www.padrinorb.com/api/Padrino/Cache/Store.html">Padrino::Cache::Store</a>: The Padrino cache store abstraction</li>
+<li>
 <a href="https://github.com/jnunemaker/toystore">ToyStore</a>: ORM mapper for key/value stores</li>
 <li>
 <a href="https://github.com/jnunemaker/adapter">ToyStore Adapter</a>: Adapter to key/value stores used by ToyStore, Moneta can be used directly with the ToyStore Memory adapter</li>
-</ul><h2>Authors</h2>
+<li>
+<a href="https://github.com/seamusabshere/cache">Cache</a>: Rubygem cache wraps Memcached and Redis</li>
+<li>
+<a href="http://ramaze.net/documentation/Innate/Cache.html">Ramaze::Cache</a>: Cache stores of the Ramaze framework with support for LocalMemCache, Memcached, Sequel, Redis, ...</li>
+</ul><hr><h2>Authors</h2>
 
 <ul>
-<li>Daniel Mendler</li>
-<li>Hannes Georg</li>
-<li>Originally by Yehuda Katz and contributors</li>
+<li><a href="https://github.com/minad">Daniel Mendler</a></li>
+<li><a href="https://github.com/hannesg">Hannes Georg</a></li>
+<li>Originally by <a href="https://github.com/wycats">Yehuda Katz</a> and contributors</li>
 </ul>
-      </section>
-
-      <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>this project by <a href="https://github.com/minad">minad</a> can be found on <a href="https://github.com/minad/moneta">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
-      </footer>
-
+        </article>
+      </div>
     </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/minad" class="avatar"><img src="https://secure.gravatar.com/avatar/768c4401e9e8dc378a841955a7df728a?s=30&amp;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png" width="48" height="48"/></a> <a href="https://github.com/minad">minad</a> maintains <a href="https://github.com/minad/moneta">Moneta</a></p>
 
-    
-  </body>
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br/>theme by <a href="http://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/minad/moneta/tarball/master" class="tar">tar</a><a href="https://github.com/minad/moneta/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
 </html>
