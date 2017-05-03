@@ -43,6 +43,7 @@ env:
     - "SCRIPT='benchmarks normal_small'"
     - "SCRIPT='benchmarks normal_medium'"
     - "SCRIPT='benchmarks normal_large'"
+    - "SCRIPT='benchmarks normal_xlarge'"
 matrix:
   allow_failures:
     - rvm: jruby-19mode
